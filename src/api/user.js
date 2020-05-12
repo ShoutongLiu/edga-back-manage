@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-05-11 17:24:27
- * @LastEditTime: 2020-05-11 18:37:29
- * @LastEditors: your name
+ * @LastEditTime: 2020-05-12 10:49:11
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \edu-kid-face-weapp-deve:\外接项目\edga-back-manage\src\api\user.js
  */
@@ -26,7 +26,7 @@ export function getInfo (token) {
 
 export function logout () {
     return request({
-        url: '/vue-admin-template/user/logout',
+        url: '/user/logout',
         method: 'post'
     })
 }
