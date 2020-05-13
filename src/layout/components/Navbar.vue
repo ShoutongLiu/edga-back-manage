@@ -9,11 +9,14 @@
         <breadcrumb class="breadcrumb-container" />
 
         <div class="right-menu">
+
             <el-dropdown
                 class="avatar-container"
                 trigger="click"
             >
+
                 <div class="avatar-wrapper">
+                    <div class="username">{{name}}</div>
                     <img
                         :src="avatar+'?imageView2/1/w/80/h/80'"
                         class="user-avatar"
@@ -54,7 +57,8 @@ export default {
     computed: {
         ...mapGetters([
             'sidebar',
-            'avatar'
+            'avatar',
+            'name'
         ])
     },
     methods: {
@@ -127,6 +131,14 @@ export default {
             .avatar-wrapper {
                 margin-top: 5px;
                 position: relative;
+
+                .username {
+                    display: inline-block;
+                    line-height: 50px;
+                    vertical-align: top;
+                    margin-right: 10px;
+                    font-size: 18px;
+                }
 
                 .user-avatar {
                     cursor: pointer;
