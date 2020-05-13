@@ -12,7 +12,7 @@
         >
         </el-table-column>
         <el-table-column
-            label="标签名"
+            :label="info.label"
             width="250"
         >
             <template slot-scope="scope">
@@ -46,7 +46,8 @@
 <script>
 export default {
     props: {
-        tableData: Array
+        tableData: Array,
+        info: Object
     },
     data () {
         return {

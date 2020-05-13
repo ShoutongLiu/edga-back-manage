@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getBanner () {
     return request({
-        url: '/banner',
+        url: '/banner/get',
         method: 'get'
     })
 }
@@ -10,7 +10,7 @@ export function getBanner () {
 
 export function delBanner (data) {
     return request({
-        url: '/delbanner',
+        url: '/banner/del',
         method: 'post',
         data
     })

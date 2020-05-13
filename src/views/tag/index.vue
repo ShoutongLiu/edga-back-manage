@@ -7,6 +7,7 @@
         <el-main>
             <data-table
                 :tableData="tableData"
+                :info="tableInfo"
                 @delete="handelDel"
                 @edit="handleEdit"
             ></data-table>
@@ -62,6 +63,9 @@ export default {
                 placeholder2: '请输入URL',
                 btnText: '添加'
             },
+            tableInfo: {
+                label: '标签名'
+            },
             tableData: [],
             row: {},    // 单条表格数据
             total: 0,
@@ -78,9 +82,6 @@ export default {
         handleAddTag (tagInfo) {
             addTag(tagInfo).then(res => {
                 if (res.data.isAdd) {
-                    let tag = JSON.parse(JSON.stringify(tagInfo))
-                    this.tableData.unshift(tag)
-                    this.tableData = this.tableData.slice(0, 10)
                     this.$message.success('添加成功')
                     this.getData({ page: this.page })
                 }

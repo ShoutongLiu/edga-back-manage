@@ -2,7 +2,7 @@
     <div class="banner-container">
         <el-upload
             class="upload-demo"
-            action="http://localhost:3000/upload"
+            action="http://localhost:3000/upload/img"
             :on-remove="handleRemove"
             :on-preview="handlePreview"
             :file-list="fileList"
