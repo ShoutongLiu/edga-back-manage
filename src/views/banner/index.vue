@@ -2,12 +2,20 @@
     <div class="banner-container">
         <el-upload
             class="upload-demo"
-            action="http://localhost:3000/upload/img"
+            action="http://wutom.club:3000/upload/img"
             :on-remove="handleRemove"
             :on-preview="handlePreview"
             :file-list="fileList"
             list-type="picture"
         >
+            <!-- <el-upload
+            class="upload-demo"
+            action="http:/127.0.0.1:3000/upload/img"
+            :on-remove="handleRemove"
+            :on-preview="handlePreview"
+            :file-list="fileList"
+            list-type="picture"
+        > -->
             <el-button
                 size="small"
                 type="primary"
