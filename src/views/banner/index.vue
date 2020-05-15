@@ -1,69 +1,45 @@
 <template>
-    <div class="banner-container">
-        <el-upload
-            class="upload-demo"
-            action="http://wutom.club:3000/upload/img"
-            :on-remove="handleRemove"
-            :on-preview="handlePreview"
-            :file-list="fileList"
-            list-type="picture"
-        >
-            <!-- <el-upload
-            class="upload-demo"
-            action="http:/127.0.0.1:3000/upload/img"
-            :on-remove="handleRemove"
-            :on-preview="handlePreview"
-            :file-list="fileList"
-            list-type="picture"
-        > -->
-            <el-button
-                size="small"
-                type="primary"
-            >点击上传</el-button>
-        </el-upload>
-    </div>
+    <el-container>
+        <banner-header
+            :url="uploadUrl"
+            @add="handleAdd"
+        ></banner-header>
+    </el-container>
 </template>
 
 <script>
-
-import { getBanner, delBanner } from '@/api/banner'
+import bannerHeader from '@/components/banner/header'
+import { getBanner, delBanner, addBanner } from '@/api/banner'
 export default {
     name: 'Banner',
     data () {
         return {
-            fileList: []
+            uploadUrl: 'http://127.0.0.1:3000/upload/banner',
+            isUpload: false,
         }
     },
-
-    mounted () {
-        getBanner().then(res => {
-            console.log(res);
-            const { data } = res
-            this.fileList = data.banners
-        })
+    components: {
+        bannerHeader
     },
     methods: {
-        handleRemove (file, fileList) {
-            delBanner({ _id: file._id }).then(res => {
+        handleAdd (val) {
+            console.log(val);
+            if (this.isUpload) {
+                this.$message.warning('该图片已经存在')
+                this.addMessage()
+                return
+            }
+            addBanner(this.bannerForm).then(res => {
                 console.log(res);
-                if (res.data.isDelete) {
-                    this.$message.success(res.data.message)
-                } else {
-                    this.$message.success('删除失败')
+                if (res.data.isAdd) {
+                    this.$message.success('添加成功')
+                    this.addMessage()
                 }
             })
-        },
-        handlePreview (file) {
-            console.log(file);
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-.banner {
-    &-container {
-        margin: 30px;
-    }
-}
 </style>

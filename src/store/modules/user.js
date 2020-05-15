@@ -13,7 +13,7 @@ import { resetRouter } from '@/router'
 const getDefaultState = () => {
     return {
         token: getToken(),
-        name: '',
+        username: '',
         avatar: ''
     }
 }
@@ -27,8 +27,8 @@ const mutations = {
     SET_TOKEN: (state, token) => {
         state.token = token
     },
-    SET_NAME: (state, name) => {
-        state.name = name
+    SET_NAME: (state, username) => {
+        state.username = username
     },
     SET_AVATAR: (state, avatar) => {
         state.avatar = avatar
@@ -57,12 +57,12 @@ const actions = {
             getInfo(state.token).then(response => {
                 const { data } = response
                 if (!data) {
-                    reject('Verification failed, please Login again.')
+                    reject('账号或密码已修改，请重新登录')
                 }
 
-                const { name, avatar } = data
+                const { username, avatar } = data
 
-                commit('SET_NAME', name)
+                commit('SET_NAME', username)
                 commit('SET_AVATAR', avatar)
                 resolve(data)
             }).catch(error => {

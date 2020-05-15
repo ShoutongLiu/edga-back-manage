@@ -15,3 +15,12 @@ export function delBanner (data) {
         data
     })
 }
+
+
+export function addBanner (data) {
+    return request({
+        url: '/banner/add',
+        method: 'post',
+        data
+    })
+}

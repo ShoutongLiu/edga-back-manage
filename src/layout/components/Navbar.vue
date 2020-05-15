@@ -16,7 +16,7 @@
             >
 
                 <div class="avatar-wrapper">
-                    <div class="username">{{name}}</div>
+                    <div class="username">{{username}}</div>
                     <img
                         :src="avatar+'?imageView2/1/w/80/h/80'"
                         class="user-avatar"
@@ -30,6 +30,11 @@
                     <router-link to="/">
                         <el-dropdown-item>
                             首页
+                        </el-dropdown-item>
+                    </router-link>
+                    <router-link to="/personal/index">
+                        <el-dropdown-item>
+                            个人中心
                         </el-dropdown-item>
                     </router-link>
                     <el-dropdown-item
@@ -58,7 +63,7 @@ export default {
         ...mapGetters([
             'sidebar',
             'avatar',
-            'name'
+            'username'
         ])
     },
     methods: {

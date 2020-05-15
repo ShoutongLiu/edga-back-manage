@@ -1,11 +1,3 @@
-<!--
- * @Author: your name
- * @Date: 2020-05-11 17:24:27
- * @LastEditTime: 2020-05-11 17:44:49
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \edu-kid-face-weapp-deve:\外接项目\edga-back-manage\src\layout\components\Sidebar\index.vue
- -->
 <template>
     <div :class="{'has-logo':showLogo}">
         <logo

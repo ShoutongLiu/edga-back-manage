@@ -37,7 +37,6 @@ export const constantRoutes = [
         hidden: true
     },
 
-
     {
         path: '/404',
         component: () => import('@/views/404'),
@@ -55,6 +54,7 @@ export const constantRoutes = [
             meta: { title: 'Banner管理', icon: 'dashboard' }
         }]
     },
+
     {
         path: '/content',
         component: Layout,
@@ -93,6 +93,18 @@ export const constantRoutes = [
                 meta: { title: '类别管理', icon: 'nested' }
             }
         ]
+    },
+
+    {
+        path: '/personal',
+        component: Layout,
+        hidden: true,
+        children: [{
+            path: 'index',
+            name: 'personal',
+            component: () => import('@/views/personal/index'),
+            meta: { title: '个人中心' }
+        }]
     },
 
     // 404 page must be placed at the end !!!
