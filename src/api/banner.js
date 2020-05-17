@@ -17,6 +17,7 @@ export function delBanner (data) {
 }
 
 
+
 export function addBanner (data) {
     return request({
         url: '/banner/add',

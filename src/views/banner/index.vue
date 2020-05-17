@@ -1,40 +1,58 @@
 <template>
-    <el-container>
-        <banner-header
-            :url="uploadUrl"
-            @add="handleAdd"
-        ></banner-header>
-    </el-container>
+    <div>
+        <banner-header :url="uploadUrl"
+                       :time="uploadTime"
+                       @add="handleAdd">
+        </banner-header>
+        <banner-table :tableData="data"
+                      @delBanner="handleDel"></banner-table>
+    </div>
 </template>
 
 <script>
 import bannerHeader from '@/components/banner/header'
+import bannerTable from '@/components/banner/table'
 import { getBanner, delBanner, addBanner } from '@/api/banner'
 export default {
     name: 'Banner',
     data () {
         return {
             uploadUrl: 'http://127.0.0.1:3000/upload/banner',
-            isUpload: false,
+            uploadTime: 0,
+            data: []
         }
     },
     components: {
-        bannerHeader
+        bannerHeader,
+        bannerTable
+    },
+    mounted () {
+        this.bannerData()
     },
     methods: {
         handleAdd (val) {
-            console.log(val);
-            if (this.isUpload) {
-                this.$message.warning('该图片已经存在')
-                this.addMessage()
-                return
-            }
-            addBanner(this.bannerForm).then(res => {
-                console.log(res);
+            addBanner(val).then(res => {
                 if (res.data.isAdd) {
-                    this.$message.success('添加成功')
-                    this.addMessage()
+                    // 向子组件传递一个时间戳，保证是一个实时的更新
+                    this.isSuccess = res.data.time
+                    this.bannerData()
                 }
+            })
+        },
+        bannerData () {
+            getBanner().then(res => {
+                this.data = res.data.banners
+            })
+        },
+        // 删除
+        handleDel (row) {
+            const { _id, path } = row
+            delBanner({ _id, url: path }).then(res => {
+                if (!res.data.isDelete) {
+                    this.$message.error('删除失败')
+                }
+                this.bannerData()
+                this.$message.success('删除成功')
             })
         }
     }

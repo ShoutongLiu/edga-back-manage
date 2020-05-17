@@ -1,37 +1,30 @@
 <template>
     <div class="header">
-        <el-main>
-            <el-upload
-                :action="url"
-                list-type="picture-card"
-                ref="upload"
-                :on-preview="handlePictureCardPreview"
-                :on-remove="handleRemove"
-                :on-success="handleAvatarSuccess"
-            >
+        <el-main class="header-container">
+            <el-upload :action="url"
+                       list-type="picture-card"
+                       ref="upload"
+                       :limit="1"
+                       :on-exceed="onExceed"
+                       :on-preview="handlePictureCardPreview"
+                       :on-remove="handleRemove"
+                       :on-success="handleAvatarSuccess"
+                       :auto-upload="false">
                 <i class="el-icon-plus"></i>
             </el-upload>
-            <el-form
-                :inline="true"
-                :model="bannerForm"
-                class="form-inline"
-                :rules="rules"
-                ref="ruleForm"
-            >
-                <el-form-item
-                    label="URL"
-                    prop="url"
-                >
-                    <el-input
-                        v-model="bannerForm.url"
-                        placeholder="请输入url"
-                    ></el-input>
+            <el-form :inline="true"
+                     :model="bannerForm"
+                     class="form-inline"
+                     :rules="rules"
+                     ref="ruleForm">
+                <el-form-item label="URL"
+                              prop="url">
+                    <el-input v-model="bannerForm.url"
+                              placeholder="请输入url"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button
-                        type="primary"
-                        @click="onAdd('ruleForm')"
-                    >添加</el-button>
+                    <el-button type="primary"
+                               @click="onAdd('ruleForm')">添加</el-button>
                 </el-form-item>
             </el-form>
         </el-main>
@@ -42,13 +35,12 @@
 <script>
 export default {
     props: {
-        url: String
+        url: String,
+        time: Number
     },
     data () {
         return {
             dialogImageUrl: '',
-            isShow: false,
-            isUpload: false,
             bannerForm: {
                 url: '',
                 path: '',
@@ -61,34 +53,34 @@ export default {
             }
         }
     },
+    watch: {
+        time (val) {
+            console.log(val);
+            if (val) {
+                this.addMessage()
+            }
+        },
+        // 监听属性变换向父组件发送事件
+        'bannerForm.path': function (val) {
+            if (val) {
+                this.$emit('add', this.bannerForm)
+            }
+        },
+        deep: true
+    },
     methods: {
+        onExceed () {
+            this.$message.warning('只能上传一张图片')
+        },
         // 删除
         handleRemove (file, fileList) {
-            // console.log(file);
-            let elupload = document.querySelector('.el-upload')
-            elupload.style.display = 'inline-block'
-            // delBanner({ _id: file._id, url: file.url }).then(res => {
-            //     console.log(res);
-            //     if (res.data.isDelete) {
-            //         this.$message.success(res.data.message)
-            //     } else {
-            //         this.$message.success('删除失败')
-            //     }
-            // })
+            console.log(file, fileList);
         },
 
         // 上传成功
         handleAvatarSuccess (res, file) {
-            if (res.data.isUpload) {
-                this.isUpload = true
-            } else {
-                this.isUpload = false
-                this.bannerForm.path = res.data.filename
-                this.bannerForm.filename = file.name
-            }
-            console.log(res);
-            let elupload = document.querySelector('.el-upload')
-            elupload.style.display = 'none'
+            this.bannerForm.path = res.data.filename
+            this.bannerForm.filename = file.name
         },
         handlePictureCardPreview (file) {
             this.dialogImageUrl = file.url;
@@ -96,8 +88,8 @@ export default {
         onAdd (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-
-                    this.$emit('add', this.bannerForm)
+                    // 图片上传服务器
+                    this.$refs.upload.submit();
                 } else {
                     return false;
                 }
@@ -106,8 +98,7 @@ export default {
         addMessage () {
             this.bannerForm.url = ''
             this.$refs.upload.clearFiles();
-            let elupload = document.querySelector('.el-upload')
-            elupload.style.display = 'inline-block'
+            this.$message.success('添加成功')
         }
     }
 }
@@ -119,7 +110,7 @@ export default {
     border-bottom: 1px solid #ccc;
 }
 
-.el-main {
+.header-container {
     display: flex;
     align-items: center;
 }
