@@ -1,6 +1,7 @@
 <template>
     <el-table
         :data="tableData"
+        v-loading="loading"
         style="width: 50%"
         stripe
         border
@@ -47,7 +48,8 @@
 export default {
     props: {
         tableData: Array,
-        info: Object
+        info: Object,
+        loading: Boolean
     },
     data () {
         return {

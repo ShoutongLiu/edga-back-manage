@@ -91,17 +91,18 @@ export default {
         }
     },
     mounted () {
-        console.log(this.$store);
-        this.$store.dispatch('user/getInfo').then(res => {
-            console.log(res);
-            const { username, avatar, password, _id } = res
-            this.form.username = username
-            this.form.avatar = avatar
-            this.form.password = password
-            this.form._id = _id
-        })
+        this.getUserInfo()
     },
     methods: {
+        getUserInfo () {
+            this.$store.dispatch('user/getInfo').then(res => {
+                const { username, avatar, password, _id } = res
+                this.form.username = username
+                this.form.avatar = avatar
+                this.form.password = password
+                this.form._id = _id
+            })
+        },
         handleAvatarSuccess (res, file) {
             console.log(res, file);
             this.form.avatar = res.data.filename
@@ -119,8 +120,9 @@ export default {
                 if (!res.data.isUpdate) {
                     this.$message.error('修改失败')
                 }
-
                 this.$message.success('修改成功')
+                this.getUserInfo()
+                this.disabled = true
             })
         },
         userEdit () {

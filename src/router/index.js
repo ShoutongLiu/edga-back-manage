@@ -51,10 +51,21 @@ export const constantRoutes = [
             path: 'banner',
             name: 'banner',
             component: () => import('@/views/banner/index'),
-            meta: { title: 'Banner管理', icon: 'dashboard' }
+            meta: { title: 'Banner管理', icon: 'banner' }
         }]
     },
-
+    {
+        path: '/graph',
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                name: 'graph',
+                component: () => import('@/views/graph/index'),
+                meta: { title: '小图管理', icon: 'img' }
+            }
+        ]
+    },
     {
         path: '/content',
         component: Layout,
@@ -68,29 +79,41 @@ export const constantRoutes = [
         ]
     },
     {
+        path: '/add',
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                name: 'add',
+                component: () => import('@/views/content/add'),
+                meta: { title: '内容添加', icon: 'add' }
+            }
+        ]
+    },
+    {
         path: '/tag',
         component: Layout,
         redirect: '/nav/tag',
         name: 'Nav',
-        meta: { title: '导航管理', icon: 'table' },
+        meta: { title: '导航管理', icon: 'nav' },
         children: [
             {
                 path: 'tag',
                 name: 'Tag',
                 component: () => import('@/views/tag/index'),
-                meta: { title: '标签管理', icon: 'table' }
+                meta: { title: '标签管理', icon: 'tag' }
             },
             {
                 path: 'location',
                 name: 'Location',
                 component: () => import('@/views/location/index'),
-                meta: { title: '位置管理', icon: 'tree' }
+                meta: { title: '位置管理', icon: 'location' }
             },
             {
                 path: 'cate',
                 name: 'Cate',
                 component: () => import('@/views/cate/index'),
-                meta: { title: '类别管理', icon: 'nested' }
+                meta: { title: '类别管理', icon: 'cate' }
             }
         ]
     },

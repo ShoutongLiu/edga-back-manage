@@ -1,6 +1,9 @@
 <template>
     <div class="app-container">
-        hhh
+        <el-button
+            type="primary"
+            @click="goAdd"
+        >添加导航</el-button>
     </div>
 </template>
 
@@ -12,7 +15,9 @@ export default {
         }
     },
     methods: {
-
+        goAdd () {
+            this.$router.push('/content/add')
+        }
     }
 }
 </script>

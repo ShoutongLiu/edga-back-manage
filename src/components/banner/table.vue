@@ -1,29 +1,42 @@
 <template>
     <el-main>
-        <el-table :data="tableData"
-                  border
-                  style="width: 100%">
-            <el-table-column label="序号"
-                             type="index"
-                             width="80">
+        <el-table
+            :data="tableData"
+            border
+            v-loading="loading"
+            style="width: 100%"
+        >
+            <el-table-column
+                label="序号"
+                type="index"
+                width="80"
+            >
             </el-table-column>
-            <el-table-column label="Banner图"
-                             width="300">
+            <el-table-column
+                label="图片预览"
+                width="300"
+            >
                 <template slot-scope="scope">
-                    <img :src="scope.row.path "
-                         alt=""
-                         class="bannerImg">
+                    <img
+                        :src="scope.row.path "
+                        alt=""
+                        class="bannerImg"
+                    >
                 </template>
             </el-table-column>
-            <el-table-column label="URL"
-                             width="500"
-                             prop="url">
+            <el-table-column
+                label="URL"
+                width="500"
+                prop="url"
+            >
             </el-table-column>
             <el-table-column label="操作">
                 <template slot-scope="scope">
-                    <el-button size="mini"
-                               type="danger"
-                               @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <el-button
+                        size="mini"
+                        type="danger"
+                        @click="handleDelete(scope.$index, scope.row)"
+                    >删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -33,12 +46,8 @@
 <script>
 export default {
     props: {
-        tableData: Array
-    },
-    data () {
-        return {
-
-        }
+        tableData: Array,
+        loading: Boolean
     },
     methods: {
         handleDelete (index, row) {

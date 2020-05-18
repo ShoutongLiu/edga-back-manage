@@ -17,12 +17,12 @@
 <script>
 import bannerHeader from '@/components/banner/header'
 import bannerTable from '@/components/banner/table'
-import { getBanner, delBanner, addBanner } from '@/api/banner'
+import { getGraph, delGraph, addGraph } from '@/api/graph'
 export default {
     name: 'Banner',
     data () {
         return {
-            uploadUrl: 'http://127.0.0.1:3000/upload/banner',
+            uploadUrl: 'http://127.0.0.1:3000/upload/graph',
             uploadTime: 0,
             data: [],
             isLoading: false
@@ -33,33 +33,33 @@ export default {
         bannerTable
     },
     mounted () {
-        this.bannerData()
+        this.graphData()
     },
     methods: {
         handleAdd (val) {
-            addBanner(val).then(res => {
+            addGraph(val).then(res => {
                 if (res.data.isAdd) {
                     // 向子组件传递一个时间戳，保证是一个实时的更新
                     this.uploadTime = Date.now()
-                    this.bannerData()
+                    this.graphData()
                 }
             })
         },
-        bannerData () {
+        graphData () {
             this.isLoading = true
-            getBanner().then(res => {
-                this.data = res.data.banners
+            getGraph().then(res => {
+                this.data = res.data.graphs
                 this.isLoading = false
             })
         },
         // 删除
         handleDel (row) {
             const { _id, path } = row
-            delBanner({ _id, url: path }).then(res => {
+            delGraph({ _id, url: path }).then(res => {
                 if (!res.data.isDelete) {
                     this.$message.error('删除失败')
                 }
-                this.bannerData()
+                this.graphData()
                 this.$message.success('删除成功')
             })
         }

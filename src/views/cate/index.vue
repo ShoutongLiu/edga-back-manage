@@ -8,6 +8,7 @@
             <data-table
                 :tableData="tableData"
                 :info="tableInfo"
+                :loading="loading"
                 @delete="handelDel"
                 @edit="handleEdit"
             ></data-table>
@@ -70,7 +71,8 @@ export default {
             row: {},    // 单条表格数据
             total: 0,
             page: 1,
-            dialogFormVisible: false
+            dialogFormVisible: false,
+            loading: false
         }
     },
     components: { addInput, dataTable, pageTion },
@@ -95,9 +97,11 @@ export default {
 
         // 请求数据
         getData (obj) {
+            this.loading = true
             getCategroy(obj).then(res => {
                 this.tableData = res.data.categroy
                 this.total = res.data.total
+                this.loading = false
             })
         },
         // 删除一条数据

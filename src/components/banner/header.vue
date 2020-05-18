@@ -1,30 +1,40 @@
 <template>
     <div class="header">
         <el-main class="header-container">
-            <el-upload :action="url"
-                       list-type="picture-card"
-                       ref="upload"
-                       :limit="1"
-                       :on-exceed="onExceed"
-                       :on-preview="handlePictureCardPreview"
-                       :on-remove="handleRemove"
-                       :on-success="handleAvatarSuccess"
-                       :auto-upload="false">
+            <el-upload
+                :action="url"
+                list-type="picture-card"
+                ref="upload"
+                :limit="1"
+                :on-exceed="onExceed"
+                :on-preview="handlePictureCardPreview"
+                :on-remove="handleRemove"
+                :on-success="handleAvatarSuccess"
+                :auto-upload="false"
+            >
                 <i class="el-icon-plus"></i>
             </el-upload>
-            <el-form :inline="true"
-                     :model="bannerForm"
-                     class="form-inline"
-                     :rules="rules"
-                     ref="ruleForm">
-                <el-form-item label="URL"
-                              prop="url">
-                    <el-input v-model="bannerForm.url"
-                              placeholder="请输入url"></el-input>
+            <el-form
+                :inline="true"
+                :model="bannerForm"
+                class="form-inline"
+                :rules="rules"
+                ref="ruleForm"
+            >
+                <el-form-item
+                    label="URL"
+                    prop="url"
+                >
+                    <el-input
+                        v-model="bannerForm.url"
+                        placeholder="请输入url"
+                    ></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary"
-                               @click="onAdd('ruleForm')">添加</el-button>
+                    <el-button
+                        type="primary"
+                        @click="onAdd('ruleForm')"
+                    >添加</el-button>
                 </el-form-item>
             </el-form>
         </el-main>
@@ -55,7 +65,7 @@ export default {
     },
     watch: {
         time (val) {
-            console.log(val);
+            console.log(val, '000');
             if (val) {
                 this.addMessage()
             }
