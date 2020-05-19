@@ -82,10 +82,11 @@ export default {
     methods: {
         // 添加标签
         handleAddCategroy (categroyInfo) {
-            addCategroy(categroyInfo).then(res => {
+            addCategroy(categroyInfo.form).then(res => {
                 if (res.data.isAdd) {
                     this.$message.success('添加成功')
                     this.getData({ page: this.page })
+                    categroyInfo.clear.resetFields()
                 }
             })
         },

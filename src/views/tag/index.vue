@@ -82,10 +82,11 @@ export default {
     methods: {
         // 添加标签
         handleAddTag (tagInfo) {
-            addTag(tagInfo).then(res => {
+            addTag(tagInfo.form).then(res => {
                 if (res.data.isAdd) {
                     this.$message.success('添加成功')
                     this.getData({ page: this.page })
+                    tagInfo.clear.resetFields()
                 }
             })
         },

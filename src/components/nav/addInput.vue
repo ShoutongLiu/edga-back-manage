@@ -63,7 +63,7 @@ export default {
         onAdd (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.$emit('addEvent', this.formTag)
+                    this.$emit('addEvent', { form: this.formTag, clear: this.$refs[formName] })
                 } else {
                     console.log('error submit!!');
                     return false;

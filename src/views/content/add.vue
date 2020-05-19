@@ -4,11 +4,11 @@
             <el-row>
                 <el-col :span="24">
                     <el-upload
+                        ref="upload"
                         class="avatar-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
+                        action="http://127.0.0.1:3000/upload/businessavatar"
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload"
                     >
                         <el-avatar
                             :src="imageUrl"
@@ -23,13 +23,16 @@
         <div class="add-form">
             <el-row>
                 <el-form
-                    ref="form"
+                    ref="navForm"
                     :model="form"
                     label-width="80px"
                 >
 
                     <el-col :span="8">
-                        <el-form-item label="公司名称">
+                        <el-form-item
+                            label="公司名称"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入公司名称"
                                 v-model="form.name"
@@ -37,7 +40,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="广告语">
+                        <el-form-item
+                            label="广告语"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入广告语"
                                 v-model="form.name"
@@ -45,7 +51,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="网站地址">
+                        <el-form-item
+                            label="网站地址"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入网站地址"
                                 v-model="form.name"
@@ -53,7 +62,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="公司介绍">
+                        <el-form-item
+                            label="公司介绍"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入公司介绍"
                                 type="textarea"
@@ -63,7 +75,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="座机">
+                        <el-form-item
+                            label="座机"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入座机号码"
                                 v-model="form.name"
@@ -71,7 +86,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="手机">
+                        <el-form-item
+                            label="手机"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入手机号码"
                                 v-model="form.name"
@@ -79,7 +97,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="邮箱">
+                        <el-form-item
+                            label="邮箱"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入邮箱地址"
                                 v-model="form.name"
@@ -87,7 +108,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="QQ">
+                        <el-form-item
+                            label="QQ"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入QQ号码"
                                 v-model="form.name"
@@ -95,18 +119,24 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="微信">
+                        <el-form-item
+                            label="微信"
+                            prop="name"
+                        >
                             <div class="box">
                                 <el-upload
                                     class="upload-wx"
-                                    action="https://jsonplaceholder.typicode.com/posts/"
+                                    ref="upload-wx"
+                                    action="http://127.0.0.1:3000/upload/wxcode"
                                     :on-preview="handlePreview"
                                     :on-remove="handleRemove"
-                                    :before-remove="beforeRemove"
+                                    :on-success="handleCodeSuccess"
+                                    :before-upload="beforeAvatarUpload"
                                     multiple
                                     :limit="1"
                                     :on-exceed="handleExceed"
                                     :file-list="fileList"
+                                    :auto-upload="false"
                                 >
                                     <el-button
                                         size="small"
@@ -117,7 +147,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="微博">
+                        <el-form-item
+                            label="微博"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入微博主页地址"
                                 v-model="form.name"
@@ -125,7 +158,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="Pinterest">
+                        <el-form-item
+                            label="Pinterest"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入Pinterest主页地址"
                                 v-model="form.name"
@@ -133,7 +169,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="Twitter">
+                        <el-form-item
+                            label="Twitter"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入Twitter主页地址"
                                 v-model="form.name"
@@ -141,7 +180,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="Behance">
+                        <el-form-item
+                            label="Behance"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入Behance主页地址"
                                 v-model="form.name"
@@ -149,7 +191,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="Facebook">
+                        <el-form-item
+                            label="Facebook"
+                            prop="name"
+                        >
                             <el-input
                                 placeholder="请输入Facebook主页地址"
                                 v-model="form.name"
@@ -157,7 +202,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="添加擅长">
+                        <el-form-item
+                            label="添加擅长"
+                            prop="name"
+                        >
                             <el-select
                                 v-model="value"
                                 multiple
@@ -177,58 +225,71 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="添加类型">
+                        <el-form-item
+                            label="添加类别"
+                            prop="name"
+                        >
                             <el-select
-                                v-model="value2"
+                                v-model="categroyVal"
                                 multiple
                                 placeholder="请选择"
+                                @change="handleCate"
                             >
                                 <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value"
+                                    v-for="item in categroy"
+                                    :key="item._id"
+                                    :label="item.name"
+                                    :value="item.name"
                                 >
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="添加位置">
+                        <el-form-item
+                            label="添加位置"
+                            prop="name"
+                        >
                             <el-select
                                 v-model="value2"
                                 multiple
                                 placeholder="请选择"
                             >
                                 <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value"
+                                    v-for="item in location"
+                                    :key="item._id"
+                                    :label="item.name"
+                                    :value="item.name"
                                 >
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="添加标签">
+                        <el-form-item
+                            label="添加标签"
+                            prop="name"
+                        >
                             <el-select
-                                v-model="value2"
+                                v-model="tagVal"
                                 multiple
                                 placeholder="请选择"
                             >
                                 <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value"
+                                    v-for="item in tag"
+                                    :key="item._id"
+                                    :label="item.name"
+                                    :value="item.name"
                                 >
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="有效时间">
+                        <el-form-item
+                            label="有效时间"
+                            prop="name"
+                        >
                             <el-date-picker
                                 v-model="activeTime"
                                 format="yyyy-MM-dd HH:mm:ss"
@@ -242,7 +303,10 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item label="选择展示">
+                        <el-form-item
+                            label="选择展示"
+                            prop="name"
+                        >
                             <el-checkbox-group v-model="form.type">
                                 <el-checkbox
                                     label="认证"
@@ -259,16 +323,23 @@
             </el-row>
         </div>
         <div class="imgs">
-
+            <upload-pic @uploadSuccess="handleGetPic"></upload-pic>
         </div>
         <div class="btn-container">
-            <el-button>重置</el-button>
-            <el-button type="primary">保存</el-button>
+            <el-button @click="resetForm('navForm')">重置</el-button>
+            <el-button
+                type="primary"
+                @click="handelAddSave"
+            >保存</el-button>
         </div>
     </div>
 </template>
 
 <script>
+import { getCategroy } from '@/api/categroy'
+import { getTag } from '@/api/tag'
+import { getLocation } from '@/api/location'
+import uploadPic from '@/components/content/uploadImgs'
 // import formatTime from '@/utils/formatTime'
 export default {
     data () {
@@ -276,7 +347,7 @@ export default {
         const time = new Date().getTime() + 365 * 24 * 60 * 60 * 1000
         const endTime = new Date(time)
         return {
-            fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
+            fileList: [],
             imageUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
             form: {
                 name: '',
@@ -292,37 +363,40 @@ export default {
                 value: '酒店标识',
                 label: '酒店标识'
             }],
-            options: [{
-                value: '选项1',
-                label: '黄金糕'
-            }, {
-                value: '选项2',
-                label: '双皮奶'
-            }, {
-                value: '选项3',
-                label: '蚵仔煎'
-            }, {
-                value: '选项4',
-                label: '龙须面'
-            }, {
-                value: '选项5',
-                label: '北京烤鸭'
-            }],
+            categroy: [],
+            categroyVal: [],        // 选中的值
+            location: [],
+            locationVal: [],        // 选中的值
+            tag: [],
+            tagVal: [],        // 选中的值
+            options: [],
             activeTime: [startTime, endTime],
-            value2: [],
-            value: []
+
+            value: [],
+            value2: []
         }
     },
-
+    components: { uploadPic },
     mounted () {
-        console.log(this.activeTime);
+        this.getCategroy(0)
+        this.getLocation(0)
+        this.getTag(0)
     },
     methods: {
         handleChangeTime (time) {
             console.log(time[0]);
         },
-        handleAvatarSuccess () { },
-        beforeAvatarUpload () { },
+        handleAvatarSuccess (res, file) {
+            this.imageUrl = res.data.filename
+            console.log(res)
+            console.log(file)
+        },
+        handleCodeSuccess (res, file) {
+            const obj = { name: file.name, url: res.data.filename }
+            this.fileList.push(obj)
+            console.log(res)
+            console.log(file)
+        },
         handleRemove (file, fileList) {
             console.log(file, fileList);
         },
@@ -332,8 +406,40 @@ export default {
         handleExceed (files, fileList) {
             this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
         },
-        beforeRemove (file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
+
+
+        resetForm (formName) {
+            console.log(this.$refs[formName]);
+            this.$refs[formName].resetFields();
+        },
+        handleCate (cate) {
+            console.log(cate);
+        },
+        // 获取类别
+        getCategroy (page) {
+            getCategroy({ page: page }).then(res => {
+                this.categroy = res.data.categroy
+            })
+        },
+        getLocation (page) {
+            getLocation({ page: page }).then(res => {
+                this.location = res.data.location
+            })
+        },
+        getTag (page) {
+            getTag({ page: page }).then(res => {
+                this.tag = res.data.tag
+            })
+        },
+        handelAddSave () {
+            this.$refs.upload.submit();
+        },
+        // 获取上传的图片
+        handleGetPic (pic) {
+            console.log(pic);
+        },
+        beforeAvatarUpload (file) {
+            console.log(file);
         }
     }
 }
@@ -381,5 +487,9 @@ export default {
     .el-input__inner {
         width: 100%;
     }
+}
+.btn-container {
+    display: flex;
+    justify-content: center;
 }
 </style>
