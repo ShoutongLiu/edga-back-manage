@@ -19,12 +19,15 @@ export default {
     methods: {
         handleCurrentChange (page) {
             // 子组件向父组件传递当前页
+            this.$router.push({ query: { page } })
             this.$emit('getPage', page)
         },
         handelPrev (page) {
+            this.$router.push({ query: { page } })
             this.$emit('getPage', page)
         },
         handelNext () {
+            this.$router.push({ query: { page } })
             this.$emit('getPage', page)
         }
     }
