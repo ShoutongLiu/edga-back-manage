@@ -108,6 +108,7 @@ export default {
         // 删除一条数据
         handelDel (row) {
             delLocation({ _id: row._id }).then(res => {
+                console.log(res);
                 if (res.data.isDel) {
                     this.$message.success('删除成功')
                     // 当前页只有一条时，请求的页面减1

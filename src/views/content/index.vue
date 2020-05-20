@@ -1,27 +1,77 @@
 <template>
     <div class="app-container">
-        <el-button
-            type="primary"
-            @click="goAdd"
-        >添加导航</el-button>
+        <div class="btn">
+            <el-button
+                type="primary"
+                @click="goAdd"
+            >添加导航</el-button>
+        </div>
+        <nav-table
+            :tableData="contentArr"
+            :loading="loading"
+            @delete="handeleDelete"
+        ></nav-table>
+        <nav-page
+            :total="total"
+            @getPage="handleGetPage"
+        ></nav-page>
     </div>
 </template>
 
 <script>
+import navTable from '@/components/content/table'
+import navPage from '@/components/nav/page'
+import { getContent, delContent } from '@/api/content'
 export default {
     data () {
         return {
-
+            contentArr: [],
+            loading: false,
+            total: 1,
+            page: 1,
         }
+    },
+    components: { navTable, navPage },
+    mounted () {
+        this.getContent(this.page)
     },
     methods: {
         goAdd () {
-            this.$router.push('/content/add')
+            this.$router.push('/add/index')
+        },
+        getContent (page) {
+            this.loading = true
+            getContent({ page: page }).then(res => {
+                this.contentArr = res.data.contents
+                this.total = res.data.total
+                this.loading = false
+            })
+        },
+        handleGetPage (page) {
+            this.getContent(page)
+            console.log(page);
+        },
+        handeleDelete (row) {
+            const { _id, avatarUrl, wxchat, pics } = row
+            const wxcode = wxchat.length > 0 ? wxchat[0].url : ''
+            const delObj = { _id, avatarUrl, wxcode, pics }
+            delContent(delObj).then(res => {
+                if (res.data.isDelete) {
+                    this.$message.success('删除成功')
+                    this.page = this.contentArr.length === 1 && this.page !== 1 ? this.page - 1 : this.page
+                    this.getContent(this.page)
+                } else {
+                    this.$message.error('删除失败')
+                }
+            })
         }
     }
 }
 </script>
 
 <style scoped>
+.btn {
+    margin-bottom: 20px;
+}
 </style>
 

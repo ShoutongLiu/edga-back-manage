@@ -1,23 +1,29 @@
 <template>
     <div class="app-container">
-        <el-upload ref="upload"
-                   action="http://127.0.0.1:3000/upload/picture"
-                   list-type="picture-card"
-                   multiple
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove"
-                   :on-success="handleAvatarSuccess"
-                   :auto-upload="false">
+        <el-upload
+            ref="upload"
+            action="http://127.0.0.1:3000/upload/picture"
+            list-type="picture-card"
+            multiple
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            :on-success="handleAvatarSuccess"
+            :auto-upload="false"
+        >
             <i class="el-icon-plus"></i>
         </el-upload>
         <el-dialog :visible.sync="dialogVisible">
-            <img width="100%"
-                 :src="dialogImageUrl"
-                 alt="">
+            <img
+                width="100%"
+                :src="dialogImageUrl"
+                alt=""
+            >
         </el-dialog>
         <div class="btn">
-            <el-button type="primary"
-                       @click="uploadSubmit">上传图片</el-button>
+            <el-button
+                type="primary"
+                @click="uploadSubmit"
+            >上传图片</el-button>
         </div>
     </div>
 </template>
@@ -42,7 +48,7 @@ export default {
         handleAvatarSuccess (res, file) {
             this.picArr.push(res.data.filename)
             console.log(this.picArr);
-            this.$emit('uploadSuccess', this.picArr)
+            this.$emit('uploadSuccess', { pic: this.picArr, ref: this.$refs.upload })
         },
         uploadSubmit () {
             this.$refs.upload.submit();

@@ -15,6 +15,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 import { Message } from 'element-ui'
 import '@/styles/index.scss' // global css
+import formatTime from '@/utils/formatTime'
 
 import App from './App'
 import store from './store'
@@ -37,6 +38,11 @@ if (process.env.NODE_ENV === 'production') {
     const { mockXHR } = require('../mock')
     mockXHR()
 }
+
+Vue.filter('format', function (value) {
+    if (!value) return ''
+    return formatTime(value)
+})
 
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
