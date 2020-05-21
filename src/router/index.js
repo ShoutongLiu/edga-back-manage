@@ -91,6 +91,18 @@ export const constantRoutes = [
         ]
     },
     {
+        path: '/edit',
+        component: Layout,
+        children: [
+            {
+                path: 'index',
+                name: 'edit',
+                component: () => import('@/views/content/edit'),
+                hidden: true
+            }
+        ]
+    },
+    {
         path: '/tag',
         component: Layout,
         redirect: '/nav/tag',

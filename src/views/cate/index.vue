@@ -58,11 +58,8 @@ export default {
     data () {
         return {
             cateInfo: {
-                label1: '类别名',
-                placeholder1: '请输入类别名',
-                label2: 'URL',
-                placeholder2: '请输入URL',
-                btnText: '添加'
+                label: '类别名',
+                placeholder: '请输入类别名'
             },
             tableInfo: {
                 label: '类别名'
@@ -77,6 +74,10 @@ export default {
     },
     components: { addInput, dataTable, pageTion },
     mounted () {
+        if (this.$route.query.page) {
+            this.getData({ page: parseInt(this.$route.query.page) })
+            return
+        }
         this.getData({ page: this.page })
     },
     methods: {

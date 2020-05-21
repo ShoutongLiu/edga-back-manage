@@ -333,14 +333,17 @@
             </el-row>
         </div>
         <div class="imgs">
-            <upload-pic @uploadSuccess="handleGetPic"></upload-pic>
+            <upload-pic
+                :picList="picList"
+                @uploadSuccess="handleGetPic"
+            ></upload-pic>
         </div>
         <div class="btn-container">
-            <el-button @click="resetForm('navForm')">重置</el-button>
+            <el-button @click="cancelEdit">取消</el-button>
             <el-button
                 type="primary"
-                @click="handelAddSave"
-            >添加</el-button>
+                @click="handelEditSave"
+            >保存</el-button>
         </div>
     </div>
 </template>
@@ -349,9 +352,8 @@
 import { getCategroy } from '@/api/categroy'
 import { getTag } from '@/api/tag'
 import { getLocation } from '@/api/location'
-import { addContent } from '@/api/content'
+import { updateContent } from '@/api/content'
 import uploadPic from '@/components/content/uploadImgs'
-import formatTime from '@/utils/formatTime'
 const imageUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 export default {
     data () {
@@ -359,7 +361,6 @@ export default {
         const time = new Date().getTime() + 365 * 24 * 60 * 60 * 1000
         const endTime = new Date(time)
         return {
-            fileList: [],
             form: {
                 avatarUrl: imageUrl,
                 companyName: '',
@@ -400,7 +401,7 @@ export default {
             categroy: [],
             location: [],
             tag: [],
-            ref: {},
+            picList: [],        // 已经上传的图片
             rules: {
                 phone: [
                     { min: 11, max: 11, message: '手机号码为11位数', trigger: 'blur' }
@@ -413,6 +414,11 @@ export default {
     },
     components: { uploadPic },
     mounted () {
+        console.log(this.$route);
+        this.form = this.$route.query
+        this.$route.query.pics.forEach(v => {
+            this.picList.push({ url: v })
+        })
         this.getCategroy(0)
         this.getLocation(0)
         this.getTag(0)
@@ -470,24 +476,20 @@ export default {
 
         // 获取上传的图片
         handleGetPic (pic) {
-            this.form.pics.push(pic.pic)
-            this.ref = pic.ref
+            let newPic = pic.pic
+            this.form.pics.push(newPic)
         },
         // 重置表单
-        resetForm (formName) {
-            this.$refs[formName].resetFields();
+        cancelEdit () {
+            this.$router.push({ path: '/content/index' })
         },
-        handelAddSave () {
-            addContent(this.form).then(res => {
-                if (res.data.isAdd) {
-                    this.$message.success('添加成功')
-                    this.resetForm('navForm')
-                    this.form.avatarUrl = imageUrl
-                    this.form.wxchat = []
-                    this.$refs.uploadAvatar.clearFiles()
-                    this.ref.clearFiles()
+        handelEditSave () {
+            updateContent(this.form).then(res => {
+                if (res.data.isUpdate) {
+                    this.$message.success('更新成功')
+                    this.$router.push({ path: '/content/index' })
                 } else {
-                    this.$message.error('添加失败')
+                    this.$message.error('更新失败')
                 }
                 console.log(res);
             })

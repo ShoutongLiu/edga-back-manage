@@ -34,6 +34,14 @@
                         autocomplete="off"
                     ></el-input>
                 </el-form-item>
+                <el-form-item>
+                    <el-switch
+                        v-model="row.showIndex"
+                        active-text="在首页显示"
+                        @change="handleShowChange"
+                    >
+                    </el-switch>
+                </el-form-item>
             </el-form>
             <div
                 slot="footer"
@@ -58,11 +66,9 @@ export default {
     data () {
         return {
             tagInfo: {
-                label1: '标签名',
-                placeholder1: '请输入标签名',
-                label2: 'URL',
-                placeholder2: '请输入URL',
-                btnText: '添加'
+                label: '标签名',
+                placeholder: '请输入标签名',
+                show: true
             },
             tableInfo: {
                 label: '标签名'
@@ -77,6 +83,10 @@ export default {
     },
     components: { addInput, dataTable, pageTion },
     mounted () {
+        if (this.$route.query.page) {
+            this.getData({ page: parseInt(this.$route.query.page) })
+            return
+        }
         this.getData({ page: this.page })
     },
     methods: {
@@ -122,6 +132,9 @@ export default {
         handleEdit (row) {
             this.row = row
             this.dialogFormVisible = true
+        },
+        handleShowChange (val) {
+            this.row.showIndex = val
         },
         confirmUpdate () {
             this.dialogFormVisible = false

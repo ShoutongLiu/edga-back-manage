@@ -33,6 +33,10 @@ export default {
     },
     components: { navTable, navPage },
     mounted () {
+        if (this.$route.query.page) {
+            this.getContent(parseInt(this.$route.query.page))
+            return
+        }
         this.getContent(this.page)
     },
     methods: {

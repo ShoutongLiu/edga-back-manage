@@ -58,11 +58,8 @@ export default {
     data () {
         return {
             locationInfo: {
-                label1: '位置名',
-                placeholder1: '请输入位置名',
-                label2: 'URL',
-                placeholder2: '请输入URL',
-                btnText: '添加'
+                label: '位置名',
+                placeholder: '请输入位置名'
             },
             tableInfo: {
                 label: '位置名'
@@ -77,6 +74,10 @@ export default {
     },
     components: { addInput, dataTable, pageTion },
     mounted () {
+        if (this.$route.query.page) {
+            this.getData({ page: parseInt(this.$route.query.page) })
+            return
+        }
         this.getData({ page: this.page })
     },
     methods: {
@@ -108,7 +109,6 @@ export default {
         // 删除一条数据
         handelDel (row) {
             delLocation({ _id: row._id }).then(res => {
-                console.log(res);
                 if (res.data.isDel) {
                     this.$message.success('删除成功')
                     // 当前页只有一条时，请求的页面减1

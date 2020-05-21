@@ -2,7 +2,7 @@
     <el-table
         :data="tableData"
         v-loading="loading"
-        style="width: 50%"
+        style="width: 100%"
         stripe
         border
     >
@@ -14,7 +14,7 @@
         </el-table-column>
         <el-table-column
             :label="info.label"
-            width="250"
+            width="400"
         >
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.name }}</span>
@@ -22,10 +22,19 @@
         </el-table-column>
         <el-table-column
             label="url"
-            width="250"
+            width="800"
         >
             <template slot-scope="scope">
                 <span style="margin-left: 10px">{{ scope.row.url }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column
+            label="首页显示"
+            width="100"
+            v-if="name === 'Tag'"
+        >
+            <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.showIndex ? '是' : '否' }}</span>
             </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -53,8 +62,11 @@ export default {
     },
     data () {
         return {
-
+            name: ''
         }
+    },
+    mounted () {
+        this.name = this.$route.name
     },
     methods: {
         handleEdit (index, row) {

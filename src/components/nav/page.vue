@@ -4,6 +4,7 @@
         layout="prev, pager, next"
         :total="total"
         class="page"
+        :current-page="currentPage"
         @current-change="handleCurrentChange"
         @prev-click="handelPrev"
         @next-click="handelNext"
@@ -13,6 +14,11 @@
 
 <script>
 export default {
+    data () {
+        return {
+            currentPage: parseInt(this.$route.query.page)
+        }
+    },
     props: {
         total: Number
     },

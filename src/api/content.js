@@ -30,7 +30,7 @@ export function addContent (data) {
 
 export function updateContent (data) {
     return request({
-        url: '/content/add',
+        url: '/content/update',
         method: 'post',
         data
     })

@@ -8,6 +8,7 @@
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             :on-success="handleAvatarSuccess"
+            :file-list="picList"
             :auto-upload="false"
         >
             <i class="el-icon-plus"></i>
@@ -30,12 +31,19 @@
 
 <script>
 export default {
+    props: {
+        picList: {
+            type: Array,
+            default: () => {
+                return []
+            }
+        }
+    },
     data () {
         return {
-            picArr: [],
             dialogImageUrl: '',
-            dialogVisible: false
-        };
+            dialogVisible: false,
+        }
     },
     methods: {
         handleRemove (file, fileList) {
@@ -46,9 +54,7 @@ export default {
             this.dialogVisible = true;
         },
         handleAvatarSuccess (res, file) {
-            this.picArr.push(res.data.filename)
-            console.log(this.picArr);
-            this.$emit('uploadSuccess', { pic: this.picArr, ref: this.$refs.upload })
+            this.$emit('uploadSuccess', { pic: res.data.filename, ref: this.$refs.upload })
         },
         uploadSubmit () {
             this.$refs.upload.submit();
