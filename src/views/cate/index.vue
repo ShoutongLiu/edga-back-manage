@@ -65,7 +65,7 @@ export default {
                 label: '类别名'
             },
             tableData: [],
-            row: {},    // 单条表格数据
+            row: {}, // 单条表格数据
             total: 0,
             page: 1,
             dialogFormVisible: false,

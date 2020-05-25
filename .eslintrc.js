@@ -17,13 +17,12 @@ module.exports = {
         node: true,
         es6: true
     },
-    // extends: ['plugin:vue/recommended', 'eslint:recommended'],
+    extends: ['plugin:vue/essential', 'eslint:recommended'],
 
     // add your custom rules here
     // it is base on https://github.com/vuejs/eslint-config-vue
     rules: {
         'indent': ['error', 4],
-        'linebreak-style': ['error', 'windows'],
         'quotes': ['error', 'single'],
         'semi': ['error', 'never'],
         // 禁止使用多个空格

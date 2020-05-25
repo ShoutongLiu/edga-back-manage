@@ -229,7 +229,6 @@
                         >
                             <el-select
                                 v-model="form.categroyVal"
-                                multiple
                                 placeholder="请选择"
                                 @change="handleCateChange"
                             >
@@ -351,7 +350,7 @@ import { getTag } from '@/api/tag'
 import { getLocation } from '@/api/location'
 import { addContent } from '@/api/content'
 import uploadPic from '@/components/content/uploadImgs'
-import formatTime from '@/utils/formatTime'
+// import formatTime from '@/utils/formatTime'
 const imageUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 export default {
     data () {
@@ -377,15 +376,14 @@ export default {
                 behance: '',
                 facebook: '',
                 skiile: [],
-                categroyVal: [],
+                categroyVal: '',
                 locationVal: [],
-                tagVal: [],        // 选中的值
+                tagVal: [], // 选中的值
                 activeTime: [startTime, endTime],
                 showType: [],
                 showIndex: false,
                 pics: [],
                 views: 0,
-                views: 0
             },
             skilleds: [{
                 value: '商业标识',
@@ -430,15 +428,16 @@ export default {
         // 获取微信图片
         handleCodeSuccess (res, file) {
             const obj = { name: file.name, url: res.data.filename }
-            console.log(obj);
+            console.log(obj)
             this.form.wxchat.push(obj)
         },
         handleRemove (file, fileList) {
-            console.log(file, fileList);
+            console.log(file, fileList)
         },
 
         // 选择类别
         handleCateChange (cate) {
+            console.log(cate)
             this.form.categroyVal = cate
         },
         handleLocationChange (location) {
@@ -475,7 +474,7 @@ export default {
         },
         // 重置表单
         resetForm (formName) {
-            this.$refs[formName].resetFields();
+            this.$refs[formName].resetFields()
         },
         handelAddSave () {
             addContent(this.form).then(res => {
@@ -489,7 +488,7 @@ export default {
                 } else {
                     this.$message.error('添加失败')
                 }
-                console.log(res);
+                console.log(res)
             })
         },
     }

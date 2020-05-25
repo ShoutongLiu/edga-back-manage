@@ -229,7 +229,6 @@
                         >
                             <el-select
                                 v-model="form.categroyVal"
-                                multiple
                                 placeholder="请选择"
                                 @change="handleCateChange"
                             >
@@ -380,7 +379,7 @@ export default {
                 skiile: [],
                 categroyVal: [],
                 locationVal: [],
-                tagVal: [],        // 选中的值
+                tagVal: [], // 选中的值
                 activeTime: [startTime, endTime],
                 showType: [],
                 showIndex: false,
@@ -401,7 +400,7 @@ export default {
             categroy: [],
             location: [],
             tag: [],
-            picList: [],        // 已经上传的图片
+            picList: [], // 已经上传的图片
             rules: {
                 phone: [
                     { min: 11, max: 11, message: '手机号码为11位数', trigger: 'blur' }
@@ -414,7 +413,7 @@ export default {
     },
     components: { uploadPic },
     mounted () {
-        console.log(this.$route);
+        console.log(this.$route)
         this.form = this.$route.query
         this.$route.query.pics.forEach(v => {
             this.picList.push({ url: v })
@@ -436,11 +435,11 @@ export default {
         // 获取微信图片
         handleCodeSuccess (res, file) {
             const obj = { name: file.name, url: res.data.filename }
-            console.log(obj);
+            console.log(obj)
             this.form.wxchat.push(obj)
         },
         handleRemove (file, fileList) {
-            console.log(file, fileList);
+            console.log(file, fileList)
         },
 
         // 选择类别
@@ -491,7 +490,7 @@ export default {
                 } else {
                     this.$message.error('更新失败')
                 }
-                console.log(res);
+                console.log(res)
             })
         },
     }

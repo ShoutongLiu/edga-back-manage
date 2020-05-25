@@ -112,7 +112,7 @@
             width="200"
         >
             <template slot-scope="scope">
-                <span>{{ scope.row.categroyVal.join('、') }}</span>
+                <span>{{ scope.row.categroyVal}}</span>
             </template>
         </el-table-column>
         <el-table-column
