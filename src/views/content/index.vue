@@ -15,6 +15,23 @@
             :total="total"
             @getPage="handleGetPage"
         ></nav-page>
+        <el-dialog
+            title="警告"
+            :visible.sync="dialogVisible"
+            width="30%"
+        >
+            <span>删除无法恢复，确定删除吗？</span>
+            <span
+                slot="footer"
+                class="dialog-footer"
+            >
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button
+                    type="primary"
+                    @click="deletaConfirm"
+                >确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -29,6 +46,8 @@ export default {
             loading: false,
             total: 1,
             page: 1,
+            dialogVisible: false,
+            row: {}
         }
     },
     components: { navTable, navPage },
@@ -53,10 +72,16 @@ export default {
         },
         handleGetPage (page) {
             this.getContent(page)
-            console.log(page);
         },
+        // 删除提示
         handeleDelete (row) {
-            const { _id, avatarUrl, wxchat, pics } = row
+            this.row = row
+            this.dialogVisible = true
+        },
+
+        // 确定删除
+        deletaConfirm () {
+            const { _id, avatarUrl, wxchat, pics } = this.row
             const wxcode = wxchat.length > 0 ? wxchat[0].url : ''
             const delObj = { _id, avatarUrl, wxcode, pics }
             delContent(delObj).then(res => {
@@ -64,6 +89,7 @@ export default {
                     this.$message.success('删除成功')
                     this.page = this.contentArr.length === 1 && this.page !== 1 ? this.page - 1 : this.page
                     this.getContent(this.page)
+                    this.dialogVisible = false
                 } else {
                     this.$message.error('删除失败')
                 }

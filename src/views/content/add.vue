@@ -384,6 +384,7 @@ export default {
                 showIndex: false,
                 pics: [],
                 views: 0,
+                love: 0
             },
             skilleds: [{
                 value: '商业标识',
@@ -485,10 +486,10 @@ export default {
                     this.form.wxchat = []
                     this.$refs.uploadAvatar.clearFiles()
                     this.ref.clearFiles()
+                    this.form.showIndex = false
                 } else {
                     this.$message.error('添加失败')
                 }
-                console.log(res)
             })
         },
     }
