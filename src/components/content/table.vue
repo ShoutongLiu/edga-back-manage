@@ -163,7 +163,7 @@
             width="120"
         />
         <el-table-column
-            prop="views"
+            prop="love"
             label="点赞数"
             width="120"
         />
@@ -200,6 +200,7 @@ export default {
                 return []
             }
         },
+        page: Number,
         loading: Boolean
     },
     methods: {
@@ -207,7 +208,7 @@ export default {
             this.$emit('delete', row)
         },
         handleEdit (index, row) {
-            this.$router.push({ path: '/edit/index', query: row })
+            this.$router.push({ path: '/edit/index', query: { ...row, page: this.page } })
         }
     }
 }

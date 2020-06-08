@@ -385,7 +385,6 @@ export default {
                 showIndex: false,
                 pics: [],
                 views: 0,
-                views: 0
             },
             skilleds: [{
                 value: '商业标识',
@@ -408,13 +407,15 @@ export default {
                 email: [
                     { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
                 ]
-            }
+            },
+            currentPage: 1
         }
     },
     components: { uploadPic },
     mounted () {
         console.log(this.$route)
         this.form = this.$route.query
+        this.currentPage = this.$route.query.page
         this.$route.query.pics.forEach(v => {
             this.picList.push({ url: v })
         })
@@ -480,7 +481,7 @@ export default {
         },
         // 重置表单
         cancelEdit () {
-            this.$router.push({ path: '/content/index' })
+            this.$router.push({ path: '/content/index', query: { page: this.currentPage } })
         },
         handelEditSave () {
             updateContent(this.form).then(res => {

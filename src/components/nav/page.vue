@@ -32,7 +32,7 @@ export default {
             this.$router.push({ query: { page } })
             this.$emit('getPage', page)
         },
-        handelNext () {
+        handelNext (page) {
             this.$router.push({ query: { page } })
             this.$emit('getPage', page)
         }

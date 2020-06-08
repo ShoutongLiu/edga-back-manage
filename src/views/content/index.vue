@@ -9,6 +9,7 @@
         <nav-table
             :tableData="contentArr"
             :loading="loading"
+            :page="page"
             @delete="handeleDelete"
         ></nav-table>
         <nav-page
@@ -71,6 +72,8 @@ export default {
             })
         },
         handleGetPage (page) {
+            console.log(page)
+            this.page = page
             this.getContent(page)
         },
         // 删除提示

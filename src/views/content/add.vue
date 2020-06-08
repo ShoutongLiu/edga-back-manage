@@ -384,7 +384,9 @@ export default {
                 showIndex: false,
                 pics: [],
                 views: 0,
-                love: 0
+                love: 0,
+                commitTime: 0,
+                surplusTime: 0
             },
             skilleds: [{
                 value: '商业标识',

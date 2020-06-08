@@ -23,6 +23,7 @@
                 <el-input
                     v-model="formTag.url"
                     placeholder="请输入URL"
+                    @keyup.enter.native="onAdd('ruleForm')"
                 ></el-input>
             </el-form-item>
             <el-form-item
@@ -61,7 +62,6 @@ export default {
                 name: '',
                 url: ''
             },
-            showIndex: false,
             rules: {
                 name: [
                     { required: true, message: '请输入标签名', trigger: 'blur' }
@@ -80,11 +80,11 @@ export default {
                     if (this.info.show) {
                         this.formTag.showIndex = this.showIndex
                     }
-                    console.log(this.formTag);
+                    console.log(this.formTag)
                     this.$emit('addEvent', { form: this.formTag, clear: this.$refs[formName] })
                 } else {
-                    console.log('error submit!!');
-                    return false;
+                    console.log('error submit!!')
+                    return false
                 }
             })
         },
