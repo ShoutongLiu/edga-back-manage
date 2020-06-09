@@ -13,11 +13,18 @@ import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
-    // baseURL: 'http://wutom.club:3000', // url = base url + request url
-    baseURL: 'http://127.0.0.1:3000', // url = base url + request url
-    // withCredentials: true, // send cookies when cross-domain requests
     timeout: 5000 // request timeout
 })
+
+// 环境的切换
+if (process.env.NODE_ENV === 'development') {
+    // 开发环境
+    axios.defaults.baseURL = 'http://127.0.0.1:3000'
+
+} else if (process.env.NODE_ENV === 'production') {
+    // 生产环境
+    axios.defaults.baseURL = 'http://hangjia.egda.com:3000'
+}
 
 // request interceptor
 service.interceptors.request.use(

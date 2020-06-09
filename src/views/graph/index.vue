@@ -18,11 +18,12 @@
 import bannerHeader from '@/components/banner/header'
 import bannerTable from '@/components/banner/table'
 import { getGraph, delGraph, addGraph } from '@/api/graph'
+import url from '../../utils/uploadUrl'
 export default {
     name: 'Banner',
     data () {
         return {
-            uploadUrl: 'http://127.0.0.1:3000/upload/graph',
+            uploadUrl: `${url}:3000/upload/graph`,
             uploadTime: 0,
             data: [],
             isLoading: false

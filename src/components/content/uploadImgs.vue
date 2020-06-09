@@ -2,7 +2,7 @@
     <div class="app-container">
         <el-upload
             ref="upload"
-            action="http://127.0.0.1:3000/upload/picture"
+            :action="`${url}:3000/upload/picture`"
             list-type="picture-card"
             multiple
             :on-preview="handlePictureCardPreview"
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import url from '../../utils/uploadUrl'
 export default {
     props: {
         picList: {
@@ -43,21 +44,22 @@ export default {
         return {
             dialogImageUrl: '',
             dialogVisible: false,
+            url: url
         }
     },
     methods: {
         handleRemove (file, fileList) {
-            console.log(file, fileList);
+            console.log(file, fileList)
         },
         handlePictureCardPreview (file) {
-            this.dialogImageUrl = file.url;
-            this.dialogVisible = true;
+            this.dialogImageUrl = file.url
+            this.dialogVisible = true
         },
         handleAvatarSuccess (res, file) {
             this.$emit('uploadSuccess', { pic: res.data.filename, ref: this.$refs.upload })
         },
         uploadSubmit () {
-            this.$refs.upload.submit();
+            this.$refs.upload.submit()
         }
     }
 }

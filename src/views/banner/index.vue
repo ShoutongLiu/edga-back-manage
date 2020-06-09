@@ -18,14 +18,15 @@
 import bannerHeader from '@/components/banner/header'
 import bannerTable from '@/components/banner/table'
 import { getBanner, delBanner, addBanner } from '@/api/banner'
+import url from '../../utils/uploadUrl'
 export default {
     name: 'Banner',
     data () {
         return {
-            uploadUrl: 'http://127.0.0.1:3000/upload/banner',
+            uploadUrl: `${url}:3000/upload/banner`,
             uploadTime: 0,
             data: [],
-            isLoading: false
+            isLoading: false,
         }
     },
     components: {

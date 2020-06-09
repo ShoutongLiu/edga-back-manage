@@ -6,7 +6,7 @@
                     <el-upload
                         ref="uploadAvatar"
                         class="avatar-uploader"
-                        action="http://127.0.0.1:3000/upload/businessavatar"
+                        :action="`${uploadUrl}:3000/upload/businessavatar`"
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess"
                     >
@@ -129,7 +129,7 @@
                                 <el-upload
                                     class="upload-wx"
                                     ref="uploadWx"
-                                    action="http://127.0.0.1:3000/upload/wxcode"
+                                    :action="`${uploadUrl}:3000/upload/wxcode`"
                                     :on-remove="handleRemove"
                                     :on-success="handleCodeSuccess"
                                     multiple
@@ -353,6 +353,7 @@ import { getTag } from '@/api/tag'
 import { getLocation } from '@/api/location'
 import { updateContent } from '@/api/content'
 import uploadPic from '@/components/content/uploadImgs'
+import url from '../../utils/uploadUrl'
 const imageUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 export default {
     data () {
@@ -360,6 +361,7 @@ export default {
         const time = new Date().getTime() + 365 * 24 * 60 * 60 * 1000
         const endTime = new Date(time)
         return {
+            uploadUrl: url,
             form: {
                 avatarUrl: imageUrl,
                 companyName: '',

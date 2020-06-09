@@ -4,7 +4,7 @@
             <div class="imgs">
                 <el-upload
                     class="avatar-uploader"
-                    action="http://127.0.0.1:3000/upload/avatar"
+                    :action="`${url}:3000/upload/avatar`"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload"
@@ -75,10 +75,11 @@
 
 <script>
 import { update } from '@/api/user'
+import url from '../../utils/uploadUrl'
 export default {
     data () {
         return {
-
+            url,
             dialogFormVisible: false,
             disabled: true,
             form: {
@@ -104,16 +105,16 @@ export default {
             })
         },
         handleAvatarSuccess (res, file) {
-            console.log(res, file);
+            console.log(res, file)
             this.form.avatar = res.data.filename
             this.disabled = false
         },
         beforeAvatarUpload (file) {
-            const isLt2M = file.size / 1024 / 1024 < 2;
+            const isLt2M = file.size / 1024 / 1024 < 2
             if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
+                this.$message.error('上传头像图片大小不能超过 2MB!')
             }
-            return isLt2M;
+            return isLt2M
         },
         saveComfir () {
             update(this.form).then(res => {

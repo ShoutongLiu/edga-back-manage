@@ -1,8 +1,8 @@
-module.exports = (date) => {
+const format = (date) => {
     let fmt = 'yyyy-MM-dd hh:mm:ss'
     const o = {
-        'M+': date.getMonth() + 1,  // 月
-        'd+': date.getDate(),  // 日
+        'M+': date.getMonth() + 1, // 月
+        'd+': date.getDate(), // 日
         'h+': date.getHours(), // 时
         'm+': date.getMinutes(), // 分
         's+': date.getSeconds(), // 秒
@@ -20,3 +20,5 @@ module.exports = (date) => {
     }
     return fmt
 }
+
+export default format
