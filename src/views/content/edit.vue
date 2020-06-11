@@ -130,7 +130,7 @@
                                     class="upload-wx"
                                     ref="uploadWx"
                                     :action="`${uploadUrl}:3000/upload/wxcode`"
-                                    :on-remove="handleRemove"
+                                    :on-remove="handleRemoveWx"
                                     :on-success="handleCodeSuccess"
                                     multiple
                                     :limit="1"
@@ -335,6 +335,7 @@
             <upload-pic
                 :picList="picList"
                 @uploadSuccess="handleGetPic"
+                @removeImg="handleRemoveImg"
             ></upload-pic>
         </div>
         <div class="btn-container">
@@ -352,6 +353,7 @@ import { getCategroy } from '@/api/categroy'
 import { getTag } from '@/api/tag'
 import { getLocation } from '@/api/location'
 import { updateContent } from '@/api/content'
+import { delWx } from '@/api/img'
 import uploadPic from '@/components/content/uploadImgs'
 import url from '../../utils/uploadUrl'
 const imageUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
@@ -388,16 +390,7 @@ export default {
                 pics: [],
                 views: 0,
             },
-            skilleds: [{
-                value: '商业标识',
-                label: '商业标识'
-            }, {
-                value: '住宅标识',
-                label: '住宅标识'
-            }, {
-                value: '酒店标识',
-                label: '酒店标识'
-            }],
+            skilleds: [],
             categroy: [],
             location: [],
             tag: [],
@@ -441,8 +434,15 @@ export default {
             console.log(obj)
             this.form.wxchat.push(obj)
         },
-        handleRemove (file, fileList) {
-            console.log(file, fileList)
+        handleRemoveWx (file, fileList) {
+            delWx({ url: file.url }).then(res => {
+                if (!res.data.isDelete) {
+                    this.$message.error('删除失败')
+                } else {
+                    this.form.wxchat = []
+                    this.$message.success(res.data.message)
+                }
+            })
         },
 
         // 选择类别
@@ -481,6 +481,13 @@ export default {
             let newPic = pic.pic
             this.form.pics.push(newPic)
         },
+        // 删除图片,获取剩下的图片
+        handleRemoveImg (list) {
+            this.form.pics = []
+            list.forEach(v => {
+                this.form.pics.push(v.url)
+            })
+        },
         // 重置表单
         cancelEdit () {
             this.$router.push({ path: '/content/index', query: { page: this.currentPage } })
@@ -489,11 +496,10 @@ export default {
             updateContent(this.form).then(res => {
                 if (res.data.isUpdate) {
                     this.$message.success('更新成功')
-                    this.$router.push({ path: '/content/index' })
+                    this.$router.push({ path: '/content/index', query: { page: this.currentPage } })
                 } else {
                     this.$message.error('更新失败')
                 }
-                console.log(res)
             })
         },
     }

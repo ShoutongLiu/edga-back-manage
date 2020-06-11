@@ -22,12 +22,12 @@
                 ref="ruleForm"
             >
                 <el-form-item
-                    label="URL"
+                    label="链接地址"
                     prop="url"
                 >
                     <el-input
                         v-model="bannerForm.url"
-                        placeholder="请输入url"
+                        placeholder="请输入链接地址"
                     ></el-input>
                 </el-form-item>
                 <el-form-item>
@@ -65,7 +65,7 @@ export default {
     },
     watch: {
         time (val) {
-            console.log(val, '000');
+            console.log(val, '000')
             if (val) {
                 this.addMessage()
             }
@@ -84,7 +84,7 @@ export default {
         },
         // 删除
         handleRemove (file, fileList) {
-            console.log(file, fileList);
+            console.log(file, fileList)
         },
 
         // 上传成功
@@ -93,21 +93,21 @@ export default {
             this.bannerForm.filename = file.name
         },
         handlePictureCardPreview (file) {
-            this.dialogImageUrl = file.url;
+            this.dialogImageUrl = file.url
         },
         onAdd (formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     // 图片上传服务器
-                    this.$refs.upload.submit();
+                    this.$refs.upload.submit()
                 } else {
-                    return false;
+                    return false
                 }
             })
         },
         addMessage () {
             this.bannerForm.url = ''
-            this.$refs.upload.clearFiles();
+            this.$refs.upload.clearFiles()
             this.$message.success('添加成功')
         }
     }

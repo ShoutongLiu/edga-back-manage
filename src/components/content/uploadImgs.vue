@@ -31,6 +31,7 @@
 
 <script>
 import url from '../../utils/uploadUrl'
+import { delPic } from '@/api/img'
 export default {
     props: {
         picList: {
@@ -49,7 +50,17 @@ export default {
     },
     methods: {
         handleRemove (file, fileList) {
-            console.log(file, fileList)
+            let filename = file.response.data.filename
+            if (filename) {
+                delPic({ url: filename }).then(res => {
+                    if (!res.data.isDelete) {
+                        this.$message.error('删除失败')
+                    } else {
+                        this.$message.success(res.data.message)
+                    }
+                })
+            }
+            this.$emit('removeImg', fileList)
         },
         handlePictureCardPreview (file) {
             this.dialogImageUrl = file.url

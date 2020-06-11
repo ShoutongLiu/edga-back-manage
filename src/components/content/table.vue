@@ -15,7 +15,7 @@
             label="公司名称"
             width="150"
         />
-        <el-table-column
+        <!-- <el-table-column
             prop="slogan"
             label="广告语"
             width="200"
@@ -98,7 +98,7 @@
             prop="facebook"
             label="Facebook"
             width="120"
-        />
+        /> -->
         <el-table-column
             label="擅长"
             width="200"
@@ -131,7 +131,7 @@
                 <span>{{ scope.row.tagVal.join('、') }}</span>
             </template>
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
             label="有效时间"
             width="350"
         >
@@ -140,7 +140,7 @@
                 <span> -></span>
                 <span>{{ new Date(scope.row.activeTime[1]) | format }}</span>
             </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column
             label="显示类型"
             width="120"

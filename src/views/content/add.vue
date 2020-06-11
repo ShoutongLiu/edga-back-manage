@@ -42,11 +42,11 @@
                     </el-col>
                     <el-col :span="8">
                         <el-form-item
-                            label="广告语"
+                            label="认证"
                             prop="slogan"
                         >
                             <el-input
-                                placeholder="请输入广告语"
+                                placeholder="请输入认证信息"
                                 v-model="form.slogan"
                             ></el-input>
                         </el-form-item>
@@ -130,7 +130,7 @@
                                     class="upload-wx"
                                     ref="uploadWx"
                                     :action="`${uploadUrl}:3000/upload/wxcode`"
-                                    :on-remove="handleRemove"
+                                    :on-remove="handleRemoveWx"
                                     :on-success="handleCodeSuccess"
                                     multiple
                                     :limit="1"
@@ -214,9 +214,9 @@
                             >
                                 <el-option
                                     v-for="item in skilleds"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value"
+                                    :key="item._id"
+                                    :label="item.name"
+                                    :value="item.name"
                                 >
                                 </el-option>
                             </el-select>
@@ -332,7 +332,10 @@
             </el-row>
         </div>
         <div class="imgs">
-            <upload-pic @uploadSuccess="handleGetPic"></upload-pic>
+            <upload-pic
+                @uploadSuccess="handleGetPic"
+                @removeImg="handleRemoveImg"
+            ></upload-pic>
         </div>
         <div class="btn-container">
             <el-button @click="resetForm('navForm')">重置</el-button>
@@ -348,7 +351,9 @@
 import { getCategroy } from '@/api/categroy'
 import { getTag } from '@/api/tag'
 import { getLocation } from '@/api/location'
+import { getField } from '@/api/field'
 import { addContent } from '@/api/content'
+import { delWx } from '@/api/img'
 import uploadPic from '@/components/content/uploadImgs'
 import url from '../../utils/uploadUrl'
 const imageUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
@@ -389,16 +394,7 @@ export default {
                 commitTime: 0,
                 surplusTime: 0
             },
-            skilleds: [{
-                value: '商业标识',
-                label: '商业标识'
-            }, {
-                value: '住宅标识',
-                label: '住宅标识'
-            }, {
-                value: '酒店标识',
-                label: '酒店标识'
-            }],
+            skilleds: [],
             categroy: [],
             location: [],
             tag: [],
@@ -417,6 +413,7 @@ export default {
     mounted () {
         this.getCategroy(0)
         this.getLocation(0)
+        this.getField(0)
         this.getTag(0)
     },
     methods: {
@@ -432,16 +429,21 @@ export default {
         // 获取微信图片
         handleCodeSuccess (res, file) {
             const obj = { name: file.name, url: res.data.filename }
-            console.log(obj)
             this.form.wxchat.push(obj)
         },
-        handleRemove (file, fileList) {
-            console.log(file, fileList)
+        handleRemoveWx (file, fileList) {
+            delWx({ url: file.url }).then(res => {
+                if (!res.data.isDelete) {
+                    this.$message.error('删除失败')
+                } else {
+                    this.form.wxchat = []
+                    this.$message.success(res.data.message)
+                }
+            })
         },
 
         // 选择类别
         handleCateChange (cate) {
-            console.log(cate)
             this.form.categroyVal = cate
         },
         handleLocationChange (location) {
@@ -462,6 +464,11 @@ export default {
                 this.location = res.data.location
             })
         },
+        getField (page) {
+            getField({ page: page }).then(res => {
+                this.skilleds = res.data.field
+            })
+        },
         getTag (page) {
             getTag({ page: page }).then(res => {
                 this.tag = res.data.tag
@@ -475,6 +482,13 @@ export default {
         handleGetPic (pic) {
             this.form.pics.push(pic.pic)
             this.ref = pic.ref
+        },
+        // 删除图片
+        handleRemoveImg (list) {
+            this.form.pics = []
+            list.forEach(v => {
+                this.form.pics.push(v.url)
+            })
         },
         // 重置表单
         resetForm (formName) {
