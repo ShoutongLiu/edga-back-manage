@@ -50,16 +50,19 @@ export default {
     },
     methods: {
         handleRemove (file, fileList) {
-            let filename = file.response.data.filename
-            if (filename) {
-                delPic({ url: filename }).then(res => {
-                    if (!res.data.isDelete) {
-                        this.$message.error('删除失败')
-                    } else {
-                        this.$message.success(res.data.message)
-                    }
-                })
+            let filename = ''
+            if (file.response) {
+                filename = file.response.data.filename
+            } else {
+                filename = file.url
             }
+            delPic({ url: filename }).then(res => {
+                if (!res.data.isDelete) {
+                    this.$message.error('删除失败')
+                } else {
+                    this.$message.success(res.data.message)
+                }
+            })
             this.$emit('removeImg', fileList)
         },
         handlePictureCardPreview (file) {

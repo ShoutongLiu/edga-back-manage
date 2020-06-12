@@ -214,9 +214,9 @@
                             >
                                 <el-option
                                     v-for="item in skilleds"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value"
+                                    :key="item._id"
+                                    :label="item.name"
+                                    :value="item.name"
                                 >
                                 </el-option>
                             </el-select>
@@ -353,6 +353,7 @@ import { getCategroy } from '@/api/categroy'
 import { getTag } from '@/api/tag'
 import { getLocation } from '@/api/location'
 import { updateContent } from '@/api/content'
+import { getField } from '@/api/field'
 import { delWx } from '@/api/img'
 import uploadPic from '@/components/content/uploadImgs'
 import url from '../../utils/uploadUrl'
@@ -416,6 +417,7 @@ export default {
         })
         this.getCategroy(0)
         this.getLocation(0)
+        this.getField(0)
         this.getTag(0)
     },
     methods: {
@@ -465,6 +467,11 @@ export default {
         getLocation (page) {
             getLocation({ page: page }).then(res => {
                 this.location = res.data.location
+            })
+        },
+        getField (page) {
+            getField({ page: page }).then(res => {
+                this.skilleds = res.data.field
             })
         },
         getTag (page) {
