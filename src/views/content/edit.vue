@@ -389,7 +389,7 @@ export default {
                 showType: [],
                 showIndex: false,
                 pics: [],
-                views: 0,
+                views: 0
             },
             skilleds: [],
             categroy: [],

@@ -391,8 +391,9 @@ export default {
                 pics: [],
                 views: 0,
                 love: 0,
-                commitTime: 0,
-                surplusTime: 0
+                commitTime: 0, // 控制浏览次数提交时间
+                loveTime: 0, // 点击爱心提交时间
+                surplusTime: 0 // 剩余时间，控制模块的显示
             },
             skilleds: [],
             categroy: [],
