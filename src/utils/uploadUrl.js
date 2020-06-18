@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'development') {
 
 } else if (process.env.NODE_ENV === 'production') {
     // 生产环境
-    url = 'http://hangjia.egda.com'
+    url = 'https://hangjia.egda.com'
 }
 
 

@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 
 } else if (process.env.NODE_ENV === 'production') {
     // 生产环境
-    axios.defaults.baseURL = 'http://hangjia.egda.com:3000'
+    axios.defaults.baseURL = 'https://hangjia.egda.com:3000'
 }
 
 // request interceptor
