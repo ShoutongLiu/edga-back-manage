@@ -80,10 +80,8 @@ export default {
                     if (this.info.show) {
                         this.formTag.showIndex = this.showIndex
                     }
-                    console.log(this.formTag)
                     this.$emit('addEvent', { form: this.formTag, clear: this.$refs[formName] })
                 } else {
-                    console.log('error submit!!')
                     return false
                 }
             })

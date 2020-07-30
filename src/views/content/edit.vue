@@ -205,12 +205,10 @@
                             prop="skiile"
                         >
                             <el-select
-                                v-model="form.skiile"
+                                v-model="tempSkill"
                                 multiple
-                                filterable
-                                allow-create
-                                default-first-option
                                 placeholder="请选择擅长标签"
+                                @change="handleSkillChange"
                             >
                                 <el-option
                                     v-for="item in skilleds"
@@ -228,7 +226,7 @@
                             prop="categroyVal"
                         >
                             <el-select
-                                v-model="form.categroyVal"
+                                v-model="tempCate"
                                 placeholder="请选择"
                                 @change="handleCateChange"
                             >
@@ -248,7 +246,7 @@
                             prop="locationVal"
                         >
                             <el-select
-                                v-model="form.locationVal"
+                                v-model="tempLocation"
                                 multiple
                                 placeholder="请选择"
                                 @change="handleLocationChange"
@@ -269,7 +267,7 @@
                             prop="tagVal"
                         >
                             <el-select
-                                v-model="form.tagVal"
+                                v-model="tempTag"
                                 multiple
                                 placeholder="请选择"
                                 @change="handleTagChange"
@@ -365,6 +363,10 @@ export default {
         const endTime = new Date(time)
         return {
             uploadUrl: url,
+            tempLocation: [],
+            tempTag: [],
+            tempSkill: [],
+            tempCate: '',
             form: {
                 avatarUrl: imageUrl,
                 companyName: '',
@@ -382,7 +384,10 @@ export default {
                 behance: '',
                 facebook: '',
                 skiile: [],
-                categroyVal: [],
+                categroyVal: {
+                    name: '',
+                    url: ''
+                },
                 locationVal: [],
                 tagVal: [], // 选中的值
                 activeTime: [startTime, endTime],
@@ -409,18 +414,30 @@ export default {
     },
     components: { uploadPic },
     mounted () {
-        console.log(this.$route)
         this.form = this.$route.query
+        const { tagVal, locationVal, skiile } = this.$route.query
+        this.tempTag = this.getTempData(tagVal)
+        this.tempLocation = this.getTempData(locationVal)
+        this.tempSkill = this.getTempData(skiile)
+
         this.currentPage = this.$route.query.page
         this.$route.query.pics.forEach(v => {
             this.picList.push({ url: v })
         })
-        this.getCategroy(0)
-        this.getLocation(0)
-        this.getField(0)
-        this.getTag(0)
+        this.getCategroy()
+        this.getLocation()
+        this.getField()
+        this.getTag()
     },
     methods: {
+        // 获取绑定数据
+        getTempData (arr) {
+            let tempArr = []
+            arr.forEach(v => {
+                tempArr.push(v.name)
+            })
+            return tempArr
+        },
         // 获取有效时间
         handleChangeTime (time) {
             this.form.activeTime = time
@@ -433,7 +450,6 @@ export default {
         // 获取微信图片
         handleCodeSuccess (res, file) {
             const obj = { name: file.name, url: res.data.filename }
-            console.log(obj)
             this.form.wxchat.push(obj)
         },
         handleRemoveWx (file, fileList) {
@@ -449,32 +465,71 @@ export default {
 
         // 选择类别
         handleCateChange (cate) {
-            this.form.categroyVal = cate
+            this.tempCate = cate
+            let obj = this.categroy.find(v => {
+                if (v.name === cate) {
+                    return v
+                }
+            })
+            this.form.categroyVal = obj
         },
         handleLocationChange (location) {
-            this.form.locationVal = location
+            this.tempLocation = location
+            let locationArr = []
+            this.location.forEach(v => {
+                this.tempLocation.forEach(l => {
+                    if (v.name === l) {
+                        locationArr.push(v)
+                    }
+                })
+            })
+            this.form.locationVal = locationArr
         },
 
         handleTagChange (tag) {
-            this.form.tagVal = tag
+            this.tempTag = tag
+            let tagArr = []
+            this.tag.forEach(v => {
+                this.tempTag.forEach(l => {
+                    if (v.name === l) {
+                        tagArr.push(v)
+                    }
+                })
+            })
+            this.form.tagVal = tagArr
         },
+
+        handleSkillChange (skill) {
+            this.tempSkill = skill
+            let SkillArr = []
+            this.skilleds.forEach(v => {
+                this.tempSkill.forEach(l => {
+                    if (v.name === l) {
+                        SkillArr.push(v)
+                    }
+                })
+            })
+            this.form.skiile = SkillArr
+        },
+
+
         // 获取类别
-        getCategroy (page) {
+        getCategroy (page = 0) {
             getCategroy({ page: page }).then(res => {
                 this.categroy = res.data.categroy
             })
         },
-        getLocation (page) {
+        getLocation (page = 0) {
             getLocation({ page: page }).then(res => {
                 this.location = res.data.location
             })
         },
-        getField (page) {
+        getField (page = 0) {
             getField({ page: page }).then(res => {
                 this.skilleds = res.data.field
             })
         },
-        getTag (page) {
+        getTag (page = 0) {
             getTag({ page: page }).then(res => {
                 this.tag = res.data.tag
             })

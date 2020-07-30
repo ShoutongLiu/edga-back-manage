@@ -71,7 +71,6 @@ export default {
     methods: {
         handleEdit (index, row) {
             this.$emit('edit', row)
-            console.log(index, row);
         },
         handleDelete (index, row) {
             this.$emit('delete', row)

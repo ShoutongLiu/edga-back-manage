@@ -105,7 +105,6 @@ export default {
             })
         },
         handleAvatarSuccess (res, file) {
-            console.log(res, file)
             this.form.avatar = res.data.filename
             this.disabled = false
         },

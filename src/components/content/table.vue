@@ -104,7 +104,12 @@
             width="200"
         >
             <template slot-scope="scope">
-                <span>{{ scope.row.skiile.join('、') }}</span>
+                <span
+                    v-for="(v , i ) in scope.row.skiile"
+                    :key="v.url"
+                >{{ v.name }}<i v-if="i
+                        !==scope.row.skiile.length
+                        -1">、</i></span>
             </template>
         </el-table-column>
         <el-table-column
@@ -112,7 +117,7 @@
             width="200"
         >
             <template slot-scope="scope">
-                <span>{{ scope.row.categroyVal}}</span>
+                <span>{{ scope.row.categroyVal.name}}</span>
             </template>
         </el-table-column>
         <el-table-column
@@ -120,7 +125,12 @@
             width="200"
         >
             <template slot-scope="scope">
-                <span>{{ scope.row.locationVal.join('、') }}</span>
+                <span
+                    v-for="(v , i ) in scope.row.locationVal"
+                    :key="v.url"
+                >{{ v.name }}<i v-if="i
+                        !==scope.row.locationVal.length
+                        -1">、</i></span>
             </template>
         </el-table-column>
         <el-table-column
@@ -128,7 +138,12 @@
             width="200"
         >
             <template slot-scope="scope">
-                <span>{{ scope.row.tagVal.join('、') }}</span>
+                <span
+                    v-for="(v , i ) in scope.row.tagVal"
+                    :key="v.url"
+                >{{ v.name }}<i v-if="i
+                        !==scope.row.tagVal.length
+                        -1">、</i></span>
             </template>
         </el-table-column>
         <!-- <el-table-column
@@ -208,7 +223,8 @@ export default {
             this.$emit('delete', row)
         },
         handleEdit (index, row) {
-            this.$router.push({ path: '/edit/index', query: { ...row, page: this.page } })
+            console.log(this.page)
+            this.$router.push({ path: '/edit/index', query: { ...row, page: this.$route.query.page || this.page } })
         }
     }
 }

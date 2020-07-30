@@ -205,12 +205,10 @@
                             prop="skiile"
                         >
                             <el-select
-                                v-model="form.skiile"
+                                v-model="tempSkill"
                                 multiple
-                                filterable
-                                allow-create
-                                default-first-option
                                 placeholder="请选择擅长标签"
+                                @change="handleSkillChange"
                             >
                                 <el-option
                                     v-for="item in skilleds"
@@ -228,7 +226,7 @@
                             prop="categroyVal"
                         >
                             <el-select
-                                v-model="form.categroyVal"
+                                v-model="tempCate"
                                 placeholder="请选择"
                                 @change="handleCateChange"
                             >
@@ -248,7 +246,7 @@
                             prop="locationVal"
                         >
                             <el-select
-                                v-model="form.locationVal"
+                                v-model="tempLocation"
                                 multiple
                                 placeholder="请选择"
                                 @change="handleLocationChange"
@@ -269,7 +267,7 @@
                             prop="tagVal"
                         >
                             <el-select
-                                v-model="form.tagVal"
+                                v-model="tempTag"
                                 multiple
                                 placeholder="请选择"
                                 @change="handleTagChange"
@@ -365,6 +363,10 @@ export default {
         return {
             fileList: [],
             uploadUrl: url,
+            tempLocation: [],
+            tempTag: [],
+            tempSkill: [],
+            tempCate: '',
             form: {
                 avatarUrl: imageUrl,
                 companyName: '',
@@ -382,7 +384,10 @@ export default {
                 behance: '',
                 facebook: '',
                 skiile: [],
-                categroyVal: '',
+                categroyVal: {
+                    name: '',
+                    url: ''
+                },
                 locationVal: [],
                 tagVal: [], // 选中的值
                 activeTime: [startTime, endTime],
@@ -445,15 +450,53 @@ export default {
 
         // 选择类别
         handleCateChange (cate) {
-            this.form.categroyVal = cate
+            this.tempCate = cate
+            let obj = this.categroy.find(v => {
+                if (v.name === cate) {
+                    return v
+                }
+            })
+            this.form.categroyVal = obj
         },
         handleLocationChange (location) {
-            this.form.locationVal = location
+            this.tempLocation = location
+            let locationArr = []
+            this.location.forEach(v => {
+                this.tempLocation.forEach(l => {
+                    if (v.name === l) {
+                        locationArr.push(v)
+                    }
+                })
+            })
+            this.form.locationVal = locationArr
         },
 
         handleTagChange (tag) {
-            this.form.tagVal = tag
+            this.tempTag = tag
+            let tagArr = []
+            this.tag.forEach(v => {
+                this.tempTag.forEach(l => {
+                    if (v.name === l) {
+                        tagArr.push(v)
+                    }
+                })
+            })
+            this.form.tagVal = tagArr
         },
+
+        handleSkillChange (skill) {
+            this.tempSkill = skill
+            let SkillArr = []
+            this.skilleds.forEach(v => {
+                this.tempSkill.forEach(l => {
+                    if (v.name === l) {
+                        SkillArr.push(v)
+                    }
+                })
+            })
+            this.form.skiile = SkillArr
+        },
+
         // 获取类别
         getCategroy (page) {
             getCategroy({ page: page }).then(res => {
@@ -497,17 +540,22 @@ export default {
         },
         handelAddSave () {
             addContent(this.form).then(res => {
-                if (res.data.isAdd) {
-                    this.$message.success('添加成功')
-                    this.resetForm('navForm')
-                    this.form.avatarUrl = imageUrl
-                    this.form.wxchat = []
-                    this.$refs.uploadAvatar.clearFiles()
-                    this.ref.clearFiles()
-                    this.form.showIndex = false
-                } else {
+                if (!res.data.isAdd) {
                     this.$message.error('添加失败')
+                    return false
                 }
+                this.$message.success('添加成功')
+                this.resetForm('navForm') // 重置表单
+                this.tempLocation = []
+                this.tempTag = []
+                this.tempSkill = []
+                this.form.categroyVal = {}
+                this.form.avatarUrl = imageUrl
+                this.form.wxchat = []
+                this.form.pics = []
+                this.$refs.uploadAvatar.clearFiles()
+                this.ref.clearFiles()
+                this.form.showIndex = false
             })
         },
     }
