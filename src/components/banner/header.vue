@@ -10,6 +10,7 @@
                 :on-preview="handlePictureCardPreview"
                 :on-remove="handleRemove"
                 :on-success="handleAvatarSuccess"
+                :before-upload="handleBefore"
                 :auto-upload="false"
             >
                 <i class="el-icon-plus"></i>
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+import Compressor from 'compressorjs'
 export default {
     props: {
         url: String,
@@ -79,6 +81,24 @@ export default {
         deep: true
     },
     methods: {
+        // 上传前压缩
+        handleBefore (file) {
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            // 大于2M的图片进行压缩
+            if (!isLt2M) {
+                return new Promise(reslove => {
+                    new Compressor(file, {
+                        convertSize: 3000000,
+                        success (res) {
+                            reslove(res)
+                        },
+                        error (err) {
+                            console.log(err.message);
+                        },
+                    });
+                })
+            }
+        },
         onExceed () {
             this.$message.warning('只能上传一张图片')
         },

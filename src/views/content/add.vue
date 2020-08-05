@@ -9,6 +9,7 @@
                         :action="`${uploadUrl}:3000/upload/businessavatar`"
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess"
+                        :before-upload="handleBefore"
                     >
                         <el-avatar
                             :src="form.avatarUrl"
@@ -353,6 +354,7 @@ import { getField } from '@/api/field'
 import { addContent } from '@/api/content'
 import { delWx } from '@/api/img'
 import uploadPic from '@/components/content/uploadImgs'
+import Compressor from 'compressorjs'
 import url from '../../utils/uploadUrl'
 const imageUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 export default {
@@ -430,6 +432,7 @@ export default {
 
         // 获取头像path
         handleAvatarSuccess (res, file) {
+            console.log(file);
             this.form.avatarUrl = res.data.filename
         },
         // 获取微信图片
@@ -447,7 +450,23 @@ export default {
                 }
             })
         },
-
+        handleBefore (file) {
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            // 大于2M的图片进行压缩
+            if (!isLt2M) {
+                return new Promise(reslove => {
+                    new Compressor(file, {
+                        convertSize: 3000000,
+                        success (res) {
+                            reslove(res)
+                        },
+                        error (err) {
+                            console.log(err.message);
+                        },
+                    });
+                })
+            }
+        },
         // 选择类别
         handleCateChange (cate) {
             this.tempCate = cate
@@ -553,6 +572,7 @@ export default {
                 this.form.avatarUrl = imageUrl
                 this.form.wxchat = []
                 this.form.pics = []
+                this.form.showIndex = false
                 this.$refs.uploadAvatar.clearFiles()
                 this.ref.clearFiles()
                 this.form.showIndex = false

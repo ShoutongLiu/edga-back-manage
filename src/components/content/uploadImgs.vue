@@ -8,6 +8,7 @@
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             :on-success="handleAvatarSuccess"
+            :before-upload="handleBefore"
             :file-list="picList"
             :auto-upload="false"
         >
@@ -30,6 +31,8 @@
 </template>
 
 <script>
+import uploadPic from '@/components/content/uploadImgs'
+import Compressor from 'compressorjs'
 import url from '../../utils/uploadUrl'
 import { delPic } from '@/api/img'
 export default {
@@ -49,6 +52,24 @@ export default {
         }
     },
     methods: {
+        // 上传前压缩
+        handleBefore (file) {
+            const isLt2M = file.size / 1024 / 1024 < 2;
+            // 大于2M的图片进行压缩
+            if (!isLt2M) {
+                return new Promise(reslove => {
+                    new Compressor(file, {
+                        convertSize: 3000000,
+                        success (res) {
+                            reslove(res)
+                        },
+                        error (err) {
+                            console.log(err.message);
+                        },
+                    });
+                })
+            }
+        },
         handleRemove (file, fileList) {
             let filename = ''
             if (file.response) {
@@ -70,6 +91,7 @@ export default {
             this.dialogVisible = true
         },
         handleAvatarSuccess (res, file) {
+            console.log(res);
             this.$emit('uploadSuccess', { pic: res.data.filename, ref: this.$refs.upload })
         },
         uploadSubmit () {

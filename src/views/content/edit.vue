@@ -419,6 +419,7 @@ export default {
         this.tempTag = this.getTempData(tagVal)
         this.tempLocation = this.getTempData(locationVal)
         this.tempSkill = this.getTempData(skiile)
+        this.tempCate = this.$route.query.categroyVal.name
 
         this.currentPage = this.$route.query.page
         this.$route.query.pics.forEach(v => {
