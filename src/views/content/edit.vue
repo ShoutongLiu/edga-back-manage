@@ -396,6 +396,7 @@ export default {
                 pics: [],
                 views: 0
             },
+            tempPic: [],
             skilleds: [],
             categroy: [],
             location: [],
@@ -542,7 +543,8 @@ export default {
         // 获取上传的图片
         handleGetPic (pic) {
             let newPic = pic.pic
-            this.form.pics.push(newPic)
+            this.tempPic.push(newPic)
+            console.log(this.tempPic);
         },
         // 删除图片,获取剩下的图片
         handleRemoveImg (list) {
@@ -555,7 +557,23 @@ export default {
         cancelEdit () {
             this.$router.push({ path: '/content/index', query: { page: this.currentPage } })
         },
+        // 排序
+        compare (property) {
+            return function (a, b) {
+                var value1 = a[property];
+                var value2 = b[property];
+                return value1 - value2
+            }
+        },
+        // 添加新的图片
+        addNewPic () {
+            this.tempPic = this.tempPic.sort(this.compare('name'))
+            this.tempPic.forEach(v => {
+                this.form.pics.push(v.filePath)
+            })
+        },
         handelEditSave () {
+            this.addNewPic()
             updateContent(this.form).then(res => {
                 if (res.data.isUpdate) {
                     this.$message.success('更新成功')

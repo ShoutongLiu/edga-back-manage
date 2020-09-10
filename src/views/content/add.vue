@@ -402,6 +402,7 @@ export default {
                 loveTime: 0, // 点击爱心提交时间
                 surplusTime: 0 // 剩余时间，控制模块的显示
             },
+            tempPic: [],
             skilleds: [],
             categroy: [],
             location: [],
@@ -543,7 +544,7 @@ export default {
 
         // 获取上传的图片
         handleGetPic (pic) {
-            this.form.pics.push(pic.pic)
+            this.tempPic.push(pic.pic)
             this.ref = pic.ref
         },
         // 删除图片
@@ -553,11 +554,27 @@ export default {
                 this.form.pics.push(v.url)
             })
         },
+        // 排序
+        compare (property) {
+            return function (a, b) {
+                var value1 = a[property];
+                var value2 = b[property];
+                return value1 - value2
+            }
+        },
+        // 对图片进行排序
+        addNewPic () {
+            this.tempPic = this.tempPic.sort(this.compare('name'))
+            this.tempPic.forEach(v => {
+                this.form.pics.push(v.filePath)
+            })
+        },
         // 重置表单
         resetForm (formName) {
             this.$refs[formName].resetFields()
         },
         handelAddSave () {
+            this.addNewPic()
             addContent(this.form).then(res => {
                 if (!res.data.isAdd) {
                     this.$message.error('添加失败')

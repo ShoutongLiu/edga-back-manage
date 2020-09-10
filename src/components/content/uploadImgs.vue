@@ -54,6 +54,7 @@ export default {
     methods: {
         // 上传前压缩
         handleBefore (file) {
+            console.log(file);
             const isLt2M = file.size / 1024 / 1024 < 2;
             // 大于2M的图片进行压缩
             if (!isLt2M) {
@@ -90,10 +91,12 @@ export default {
             this.dialogImageUrl = file.url
             this.dialogVisible = true
         },
-        handleAvatarSuccess (res, file) {
-            console.log(res);
-            this.$emit('uploadSuccess', { pic: res.data.filename, ref: this.$refs.upload })
+        handleAvatarSuccess (res, file, fileList) {
+            const lastName = file.name.split('.')[0]
+            const lastStr = parseInt(lastName.substring(lastName.length - 2, lastName.length))
+            this.$emit('uploadSuccess', { pic: { filePath: res.data.filename, name: lastStr }, ref: this.$refs.upload })
         },
+
         uploadSubmit () {
             this.$refs.upload.submit()
         }
