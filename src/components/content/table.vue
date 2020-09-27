@@ -15,90 +15,6 @@
             label="公司名称"
             width="150"
         />
-        <!-- <el-table-column
-            prop="slogan"
-            label="广告语"
-            width="200"
-        />
-        <el-table-column
-            prop="url"
-            label="网址"
-            width="200"
-        />
-        <el-table-column
-            prop="Landline"
-            label="座机"
-            width="120"
-        />
-        <el-table-column
-            prop="phone"
-            label="手机"
-            width="120"
-        />
-        <el-table-column
-            prop="email"
-            label="邮箱"
-            width="120"
-        />
-        <el-table-column
-            prop="qq"
-            label="QQ"
-            width="120"
-        />
-        <el-table-column
-            label="微信"
-            width="120"
-        >
-            <template slot-scope="scope">
-                <el-popover
-                    v-for="v in scope.row.wxchat"
-                    :key="v.name"
-                    placement="bottom-start"
-                    width="220"
-                    trigger="hover"
-                >
-                    <div>
-                        <img
-                            :src="v.url"
-                            :alt="v.name"
-                            class="wxcode"
-                        >
-                    </div>
-                    <el-button
-                        slot="reference"
-                        class="wxname"
-                        size="mini"
-                    >
-                        {{ v.name.split('.')[0] }}
-                    </el-button>
-                </el-popover>
-            </template>
-        </el-table-column>
-        <el-table-column
-            prop="weibo"
-            label="微博"
-            width="120"
-        />
-        <el-table-column
-            prop="pinterest"
-            label="Pinterest"
-            width="120"
-        />
-        <el-table-column
-            prop="twitter"
-            label="Twitter"
-            width="120"
-        />
-        <el-table-column
-            prop="behance"
-            label="Behance"
-            width="120"
-        />
-        <el-table-column
-            prop="facebook"
-            label="Facebook"
-            width="120"
-        /> -->
         <el-table-column
             label="擅长"
             width="200"
@@ -107,7 +23,7 @@
                 <span
                     v-for="(v , i ) in scope.row.skiile"
                     :key="v.url"
-                >{{ v.name }}<i v-if="i
+                >{{ v.name ? v.name : '' }}<i v-if="scope.row.skiile && i
                         !==scope.row.skiile.length
                         -1">、</i></span>
             </template>
@@ -117,7 +33,7 @@
             width="200"
         >
             <template slot-scope="scope">
-                <span>{{ scope.row.categroyVal.name}}</span>
+                <span>{{ scope.row.categroyVal ? scope.row.categroyVal.name : ''}}</span>
             </template>
         </el-table-column>
         <el-table-column
@@ -128,7 +44,7 @@
                 <span
                     v-for="(v , i ) in scope.row.locationVal"
                     :key="v.url"
-                >{{ v.name }}<i v-if="i
+                >{{ v.name ? v.name : ''}}<i v-if="scope.row.locationVal && i
                         !==scope.row.locationVal.length
                         -1">、</i></span>
             </template>
@@ -141,27 +57,18 @@
                 <span
                     v-for="(v , i ) in scope.row.tagVal"
                     :key="v.url"
-                >{{ v.name }}<i v-if="i
+                >{{ v.name ? v.name : '' }}<i v-if="scope.row.tagVal && i
                         !==scope.row.tagVal.length
                         -1">、</i></span>
             </template>
         </el-table-column>
-        <!-- <el-table-column
-            label="有效时间"
-            width="350"
-        >
-            <template slot-scope="scope">
-                <span>{{ new Date(scope.row.activeTime[0]) | format }}</span>
-                <span> -></span>
-                <span>{{ new Date(scope.row.activeTime[1]) | format }}</span>
-            </template>
-        </el-table-column> -->
+
         <el-table-column
             label="显示类型"
             width="120"
         >
             <template slot-scope="scope">
-                <span>{{ scope.row.showType.join('、') }}</span>
+                <span>{{ scope.row.showType && scope.row.showType.length > 0 ? scope.row.showType.join('、') :'' }}</span>
             </template>
         </el-table-column>
         <el-table-column
@@ -212,7 +119,13 @@ export default {
         tableData: {
             type: Array,
             default: () => {
-                return []
+                return [
+                    {
+                        categroyVal: {
+                            name: ''
+                        }
+                    }
+                ]
             }
         },
         page: Number,

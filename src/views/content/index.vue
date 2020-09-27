@@ -43,7 +43,13 @@ import { getContent, delContent } from '@/api/content'
 export default {
     data () {
         return {
-            contentArr: [],
+            contentArr: [
+                {
+                    categroyVal: {
+                        name: ''
+                    }
+                }
+            ],
             loading: false,
             total: 1,
             page: 1,

@@ -213,8 +213,8 @@
                                 <el-option
                                     v-for="item in skilleds"
                                     :key="item._id"
-                                    :label="item.name"
-                                    :value="item.name"
+                                    :label="item ? item.name : ''"
+                                    :value="item ? item.name : ''"
                                 >
                                 </el-option>
                             </el-select>
@@ -233,8 +233,8 @@
                                 <el-option
                                     v-for="item in categroy"
                                     :key="item._id"
-                                    :label="item.name"
-                                    :value="item.name"
+                                    :label="item ? item.name : ''"
+                                    :value="item ? item.name : ''"
                                 >
                                 </el-option>
                             </el-select>
@@ -254,8 +254,8 @@
                                 <el-option
                                     v-for="item in location"
                                     :key="item._id"
-                                    :label="item.name"
-                                    :value="item.name"
+                                    :label="item ? item.name : ''"
+                                    :value="item ? item.name : ''"
                                 >
                                 </el-option>
                             </el-select>
@@ -275,8 +275,8 @@
                                 <el-option
                                     v-for="item in tag"
                                     :key="item._id"
-                                    :label="item.name"
-                                    :value="item.name"
+                                    :label="item ? item.name : ''"
+                                    :value="item ? item.name : ''"
                                 >
                                 </el-option>
                             </el-select>
@@ -420,8 +420,7 @@ export default {
         this.tempTag = this.getTempData(tagVal)
         this.tempLocation = this.getTempData(locationVal)
         this.tempSkill = this.getTempData(skiile)
-        this.tempCate = this.$route.query.categroyVal.name
-
+        this.tempCate = this.$route.query.categroyVal ? this.$route.query.categroyVal.name : ''
         this.currentPage = this.$route.query.page
         this.$route.query.pics.forEach(v => {
             this.picList.push({ url: v })
@@ -435,9 +434,11 @@ export default {
         // 获取绑定数据
         getTempData (arr) {
             let tempArr = []
-            arr.forEach(v => {
-                tempArr.push(v.name)
-            })
+            if (arr.length > 0) {
+                arr.forEach(v => {
+                    tempArr.push(v.name)
+                })
+            }
             return tempArr
         },
         // 获取有效时间
