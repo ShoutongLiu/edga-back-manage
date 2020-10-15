@@ -479,8 +479,8 @@ export default {
         handleLocationChange (location) {
             this.tempLocation = location
             let locationArr = []
-            this.location.forEach(v => {
-                this.tempLocation.forEach(l => {
+            this.tempLocation.forEach(l => {
+                this.location.forEach(v => {
                     if (v.name === l) {
                         locationArr.push(v)
                     }
@@ -492,8 +492,8 @@ export default {
         handleTagChange (tag) {
             this.tempTag = tag
             let tagArr = []
-            this.tag.forEach(v => {
-                this.tempTag.forEach(l => {
+            this.tempTag.forEach(l => {
+                this.tag.forEach(v => {
                     if (v.name === l) {
                         tagArr.push(v)
                     }
@@ -505,8 +505,8 @@ export default {
         handleSkillChange (skill) {
             this.tempSkill = skill
             let SkillArr = []
-            this.skilleds.forEach(v => {
-                this.tempSkill.forEach(l => {
+            this.tempSkill.forEach(l => {
+                this.skilleds.forEach(v => {
                     if (v.name === l) {
                         SkillArr.push(v)
                     }
@@ -545,7 +545,7 @@ export default {
         handleGetPic (pic) {
             let newPic = pic.pic
             this.tempPic.push(newPic)
-            console.log(this.tempPic);
+            console.log('temp', this.tempPic);
         },
         // 删除图片,获取剩下的图片
         handleRemoveImg (list) {

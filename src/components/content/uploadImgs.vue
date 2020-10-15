@@ -54,7 +54,7 @@ export default {
     methods: {
         // 上传前压缩
         handleBefore (file) {
-            console.log(file);
+            console.log('上传前', file);
             const isLt2M = file.size / 1024 / 1024 < 2;
             // 大于2M的图片进行压缩
             if (!isLt2M) {

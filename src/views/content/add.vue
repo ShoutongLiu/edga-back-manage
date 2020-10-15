@@ -481,8 +481,8 @@ export default {
         handleLocationChange (location) {
             this.tempLocation = location
             let locationArr = []
-            this.location.forEach(v => {
-                this.tempLocation.forEach(l => {
+            this.tempLocation.forEach(l => {
+                this.location.forEach(v => {
                     if (v.name === l) {
                         locationArr.push(v)
                     }
@@ -494,8 +494,8 @@ export default {
         handleTagChange (tag) {
             this.tempTag = tag
             let tagArr = []
-            this.tag.forEach(v => {
-                this.tempTag.forEach(l => {
+            this.tempTag.forEach(l => {
+                this.tag.forEach(v => {
                     if (v.name === l) {
                         tagArr.push(v)
                     }
@@ -507,8 +507,8 @@ export default {
         handleSkillChange (skill) {
             this.tempSkill = skill
             let SkillArr = []
-            this.skilleds.forEach(v => {
-                this.tempSkill.forEach(l => {
+            this.tempSkill.forEach(l => {
+                this.skilleds.forEach(v => {
                     if (v.name === l) {
                         SkillArr.push(v)
                     }
@@ -575,6 +575,7 @@ export default {
         },
         handelAddSave () {
             this.addNewPic()
+            // console.log('00000000', this.form.pics);
             addContent(this.form).then(res => {
                 if (!res.data.isAdd) {
                     this.$message.error('添加失败')
@@ -584,6 +585,8 @@ export default {
                 this.resetForm('navForm') // 重置表单
                 this.tempLocation = []
                 this.tempTag = []
+                this.tempPic = []
+                this.tempCate = ''
                 this.tempSkill = []
                 this.form.categroyVal = {}
                 this.form.avatarUrl = imageUrl
