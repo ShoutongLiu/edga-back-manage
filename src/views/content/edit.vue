@@ -545,14 +545,20 @@ export default {
         handleGetPic (pic) {
             let newPic = pic.pic
             this.tempPic.push(newPic)
-            console.log('temp', this.tempPic);
         },
         // 删除图片,获取剩下的图片
         handleRemoveImg (list) {
+            this.tempPic = []
             this.form.pics = []
-            list.forEach(v => {
-                this.form.pics.push(v.url)
-            })
+            if (list.length > 0) {
+                list.forEach(v => {
+                    if (v.response) {
+                        this.form.pics.push(v.response.data.filename)
+                    } else {
+                        this.form.pics.push(v.url)
+                    }
+                })
+            }
         },
         // 重置表单
         cancelEdit () {
@@ -566,15 +572,18 @@ export default {
                 return value1 - value2
             }
         },
-        // 添加新的图片
+        // 添加新的图片排序
         addNewPic () {
-            this.tempPic = this.tempPic.sort(this.compare('name'))
-            this.tempPic.forEach(v => {
-                this.form.pics.push(v.filePath)
-            })
+            if (this.tempPic.length > 0) {
+                this.tempPic = this.tempPic.sort(this.compare('name'))
+                this.tempPic.forEach(v => {
+                    this.form.pics.push(v.filePath)
+                })
+            }
         },
         handelEditSave () {
-            this.addNewPic()
+            this.addNewPic()        // 排序
+            console.log(this.form);
             updateContent(this.form).then(res => {
                 if (res.data.isUpdate) {
                     this.$message.success('更新成功')
@@ -582,6 +591,7 @@ export default {
                 } else {
                     this.$message.error('更新失败')
                 }
+                this.isRemove = false
             })
         },
     }

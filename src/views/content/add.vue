@@ -549,10 +549,17 @@ export default {
         },
         // 删除图片
         handleRemoveImg (list) {
+            this.tempPic = []
             this.form.pics = []
-            list.forEach(v => {
-                this.form.pics.push(v.url)
-            })
+            if (list.length > 0) {
+                list.forEach(v => {
+                    if (v.response) {
+                        this.form.pics.push(v.response.data.filename)
+                    } else {
+                        this.form.pics.push(v.url)
+                    }
+                })
+            }
         },
         // 排序
         compare (property) {
@@ -564,10 +571,12 @@ export default {
         },
         // 对图片进行排序
         addNewPic () {
-            this.tempPic = this.tempPic.sort(this.compare('name'))
-            this.tempPic.forEach(v => {
-                this.form.pics.push(v.filePath)
-            })
+            if (this.tempPic.length > 0) {
+                this.tempPic = this.tempPic.sort(this.compare('name'))
+                this.tempPic.forEach(v => {
+                    this.form.pics.push(v.filePath)
+                })
+            }
         },
         // 重置表单
         resetForm (formName) {
@@ -575,7 +584,7 @@ export default {
         },
         handelAddSave () {
             this.addNewPic()
-            // console.log('00000000', this.form.pics);
+            console.log('00000000', this.form.pics);
             addContent(this.form).then(res => {
                 if (!res.data.isAdd) {
                     this.$message.error('添加失败')
